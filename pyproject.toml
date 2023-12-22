@@ -1,0 +1,18 @@
+[project]
+name = "loggerjava_HTony03"
+version = "0.0.0"
+authors = [
+  { name="HTony03", email="HTony03@foxmail.com" },
+]
+description = "test logger like java log output"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+Homepage = "https://github.com/HTony03/loggerjava"
+Issues = "https://github.com/HTony03/loggerjava/issues"
