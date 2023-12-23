@@ -2,7 +2,7 @@ import time
 if __name__ == '__main__':
     pass
 
-ver = "0.0.4"
+ver = "0.0.5"
 namein = "log"
 f = open(namein + ".log", "w")
 f.close()
@@ -128,20 +128,24 @@ def config(name="log", showdetailedtime=False, showinconsole=True):
     :param showinconsole:whether output log will show in python console
     :return:
     """
-    global showdetailedtimein, showinconsolein,namein
+    global namein, showdetailedtimein, showinconsolein
     namein = name
     f = open(namein + ".log", "w")
     f.close()
-    if not showdetailedtime or showdetailedtime:
+    if showdetailedtime or not showdetailedtime:
         showdetailedtimein = showdetailedtime
     else:
-        print("wrong detailed time config\nthis config is set to normal")
+        tmpin = showinconsolein
+        showinconsolein = True
+        warn("wrong detailed time config.this config is set to normal", pos="main_loggerjava")
+        showinconsolein = tmpin
         showdetailedtimein = False
-    if not showinconsole or showinconsole:
+        del tmpin
+    if showinconsole or not showinconsole:
         showinconsolein = showinconsole
     else:
-        print("wrong detailed time config\nthis config is set to normal")
         showinconsolein = True
+        warn("wrong show in console config.this config is set to normal", pos="main_loggerjava")
 
 
 def version():
@@ -149,10 +153,48 @@ def version():
     show the current version of loggerjava
     :return:
     """
-    print("Current loggerjava ver:%s"%ver)
+    print("Current loggerjava ver:%s" % ver)
 
+
+def outputconfig():
+    """
+    output current config
+    use loadconfig(config) to load this outputed config
+    returning as a lib
+    :return:
+    """
+    i = {"name": namein, "showdetailedtime": showdetailedtimein, "showinconsole": showinconsolein}
+    return i
+
+
+def loadconfig(inputconfig):
+    """
+
+    :param inputconfig: the config lib outputed from outputconfig()
+    :return:
+    """
+    global namein, showdetailedtimein, showinconsolein
+    namein = inputconfig["name"]
+    f = open(namein + ".log", "w")
+    f.close()
+    if inputconfig["showdetailedtime"] or not inputconfig["showdetailedtime"]:
+        showdetailedtimein = inputconfig["showdetailedtime"]
+    else:
+        tmpin = showinconsolein
+        showinconsolein = True
+        warn("wrong detailed time config.this config is set to normal", pos="main_loggerjava")
+        showinconsolein = tmpin
+        showdetailedtimein = False
+        del tmpin
+    if inputconfig["showinconsole"] or not inputconfig["showinconsole"]:
+        showinconsolein = inputconfig["showinconsole"]
+    else:
+        showinconsolein = True
+        warn("wrong show in console config.this config is set to normal", pos="main_loggerjava")
 
 # noinspection PyMethodParameters
+
+
 class _output:
 
     def format(time1, place, level, txt):

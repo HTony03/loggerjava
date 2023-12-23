@@ -31,6 +31,8 @@ logger.confg()
 
 ### versions
 
+0.0.5 added the outputconfig and the loadconfig function,edited the config part to let it output log
+
 0.0.4 upgrade the config sys and add helps
 
 0.0.3 upload the descriptions
