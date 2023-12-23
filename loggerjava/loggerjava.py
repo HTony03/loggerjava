@@ -2,8 +2,8 @@ if __name__ == '__main__':
     pass
 import time
 
-
-class logger:
+"""
+class loggerjava:
 
     def __init__(self):
         self.name = "log"
@@ -110,3 +110,6 @@ class logger:
         def time1():
             return str(time.localtime().tm_hour).rjust(2, "0")+":" +\
                 str(time.localtime().tm_min).rjust(2, "0")+":"+str(time.localtime().tm_sec).rjust(2, "0")
+
+
+"""

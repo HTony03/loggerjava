@@ -1,10 +1,10 @@
 [project]
-name = "loggerjava_HTony03"
-version = "0.0.0"
+name = "loggerjava"
+version = "0.0.4"
 authors = [
   { name="HTony03", email="HTony03@foxmail.com" },
 ]
-description = "test logger like java log output"
+description = "an easy logger outputs like java logs"
 readme = "README.md"
 requires-python = ">=3.8"
 classifiers = [
