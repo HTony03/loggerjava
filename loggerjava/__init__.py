@@ -1,8 +1,9 @@
 import time
+from . import loggerjava
 if __name__ == '__main__':
     pass
 
-ver = "0.0.5"
+ver = "0.0.5.1"
 namein = "log"
 f = open(namein + ".log", "w")
 f.close()
@@ -156,10 +157,10 @@ def version():
     print("Current loggerjava ver:%s" % ver)
 
 
-def outputconfig():
+def exportconfig():
     """
-    output current config
-    use loadconfig(config) to load this outputed config
+    export current config
+    use loadconfig(config) to load this exported config
     returning as a lib
     :return:
     """
@@ -170,7 +171,7 @@ def outputconfig():
 def loadconfig(inputconfig):
     """
 
-    :param inputconfig: the config lib outputed from outputconfig()
+    :param inputconfig: the config lib exported from exportconfig()
     :return:
     """
     global namein, showdetailedtimein, showinconsolein
