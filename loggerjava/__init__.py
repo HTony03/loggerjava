@@ -1,16 +1,18 @@
 import time
-from . import loggerjava
 if __name__ == '__main__':
     pass
 
-ver = "0.0.5.1"
-namein = "log"
-f = open(namein + ".log", "w")
-f.close()
-showdetailedtimein = False
-showinconsolein = True
+ver = "0.0.6"
+name = "log"
+absolutepath = False
+showdetailedtime = False
+showinconsole = True
+filetype = ".log"
+file_encoding = "utf-8"
+route = r"log.log"
 
 
+# noinspection PyTypeChecker
 def debug(txt, pos="main"):
     """
 
@@ -19,14 +21,17 @@ def debug(txt, pos="main"):
         :return:
         """
     level = 'debug'
-    f = open(namein + ".log", "at+")
-    if showdetailedtimein and showinconsolein:
+    if absolutepath:
+        f = open(route, mode="at+", encoding=file_encoding)
+    else:
+        f = open(name + filetype, mode="at+", encoding=file_encoding)
+    if showdetailedtime and showinconsole:
         f.write(_output.format(time.asctime(), pos, level, txt))
         print(_output.format(time.asctime(), pos, level, txt))
-    elif not showdetailedtimein and showinconsolein:
+    elif not showdetailedtime and showinconsole:
         f.write(_output.format(_output.time1(), pos, level, txt))
         print(_output.format(_output.time1(), pos, level, txt))
-    elif showdetailedtimein and not showinconsolein:
+    elif showdetailedtime and not showinconsole:
         f.write(_output.format(time.asctime(), pos, level, txt))
     else:
         f.write(_output.format(_output.time1(), pos, level, txt))
@@ -41,14 +46,18 @@ def info(txt, pos="main"):
         :return:
         """
     level = 'INFO'
-    f = open(namein + ".log", "at+")
-    if showdetailedtimein and showinconsolein:
+    if absolutepath:
+        f = open(route, mode="at+", encoding=file_encoding)
+    else:
+        f = open(name + filetype, mode="at+", encoding=file_encoding)
+    if showdetailedtime and showinconsole:
+        # noinspection PyTypeChecker
         f.write(_output.format(time.asctime(), pos, level, txt))
         print(_output.format(time.asctime(), pos, level, txt))
-    elif not showdetailedtimein and showinconsolein:
+    elif not showdetailedtime and showinconsole:
         f.write(_output.format(_output.time1(), pos, level, txt))
         print(_output.format(_output.time1(), pos, level, txt))
-    elif showdetailedtimein and not showinconsolein:
+    elif showdetailedtime and not showinconsole:
         f.write(_output.format(time.asctime(), pos, level, txt))
     else:
         f.write(_output.format(_output.time1(), pos, level, txt))
@@ -63,14 +72,17 @@ def warn(txt, pos="main"):
         :return:
         """
     level = 'WARN'
-    f = open(namein + ".log", "at+")
-    if showdetailedtimein and showinconsolein:
+    if absolutepath:
+        f = open(route, mode="at+", encoding=file_encoding)
+    else:
+        f = open(name + filetype, mode="at+", encoding=file_encoding)
+    if showdetailedtime and showinconsole:
         f.write(_output.format(time.asctime(), pos, level, txt))
         print(_output.format(time.asctime(), pos, level, txt))
-    elif not showdetailedtimein and showinconsolein:
+    elif not showdetailedtime and showinconsole:
         f.write(_output.format(_output.time1(), pos, level, txt))
         print(_output.format(_output.time1(), pos, level, txt))
-    elif showdetailedtimein and not showinconsolein:
+    elif showdetailedtime and not showinconsole:
         f.write(_output.format(time.asctime(), pos, level, txt))
     else:
         f.write(_output.format(_output.time1(), pos, level, txt))
@@ -85,14 +97,17 @@ def error(txt, pos="main"):
         :return:
         """
     level = 'ERROR'
-    f = open(namein + ".log", "at+")
-    if showdetailedtimein and showinconsolein:
+    if absolutepath:
+        f = open(route, mode="at+", encoding=file_encoding)
+    else:
+        f = open(name + filetype, mode="at+", encoding=file_encoding)
+    if showdetailedtime and showinconsole:
         f.write(_output.format(time.asctime(), pos, level, txt))
         print(_output.format(time.asctime(), pos, level, txt))
-    elif not showdetailedtimein and showinconsolein:
+    elif not showdetailedtime and showinconsole:
         f.write(_output.format(_output.time1(), pos, level, txt))
         print(_output.format(_output.time1(), pos, level, txt))
-    elif showdetailedtimein and not showinconsolein:
+    elif showdetailedtime and not showinconsole:
         f.write(_output.format(time.asctime(), pos, level, txt))
     else:
         f.write(_output.format(_output.time1(), pos, level, txt))
@@ -107,46 +122,119 @@ def fatal(txt, pos="main"):
     :return:
     """
     level = 'FATAL'
-    f = open(namein + ".log", "at+")
-    if showdetailedtimein and showinconsolein:
+    if absolutepath:
+        f = open(route, mode="at+", encoding=file_encoding)
+    else:
+        f = open(name + filetype, mode="at+", encoding=file_encoding)
+    if showdetailedtime and showinconsole:
         f.write(_output.format(time.asctime(), pos, level, txt))
         print(_output.format(time.asctime(), pos, level, txt))
-    elif not showdetailedtimein and showinconsolein:
+    elif not showdetailedtime and showinconsole:
         f.write(_output.format(_output.time1(), pos, level, txt))
         print(_output.format(_output.time1(), pos, level, txt))
-    elif showdetailedtimein and not showinconsolein:
+    elif showdetailedtime and not showinconsole:
         f.write(_output.format(time.asctime(), pos, level, txt))
     else:
         f.write(_output.format(_output.time1(), pos, level, txt))
     f.close()
 
 
-def config(name="log", showdetailedtime=False, showinconsole=True):
+def config(**kwargs):
     """
+    :param kwargs:input config names and config data
+    format: config_name = config_data
 
-    :param name: output log file name
-    :param showdetailedtime: output log time format,False for short time, True for long time
-    :param showinconsole:whether output log will show in python console
+    below are config_name and the description
+
+    name : change the name of the log file, only actives when abolutepath config is off
+
+    filetype : change the file type of the log file, only actives when abolutepath config is off
+
+    absolutepath : change whether inputing the absolute path of the log file,
+    True for using the name and filetype to create file in the program running location
+    False for using the route to create file in the specific location(note:you need to enter the file format,like:test.log)
+
+    route : change the file location, only activates when abolutepath config is on
+
+    file_encoding : change the file encoding method
+
+    showdetailedtime : whether to show detailed time in the log file
+
+    showinconsole : whether to show the log in the python console
+
     :return:
     """
-    global namein, showdetailedtimein, showinconsolein
-    namein = name
-    f = open(namein + ".log", "w")
-    f.close()
-    if showdetailedtime or not showdetailedtime:
-        showdetailedtimein = showdetailedtime
-    else:
-        tmpin = showinconsolein
-        showinconsolein = True
-        warn("wrong detailed time config.this config is set to normal", pos="main_loggerjava")
-        showinconsolein = tmpin
-        showdetailedtimein = False
-        del tmpin
-    if showinconsole or not showinconsole:
-        showinconsolein = showinconsole
-    else:
-        showinconsolein = True
-        warn("wrong show in console config.this config is set to normal", pos="main_loggerjava")
+    global showinconsole, showdetailedtime, absolutepath, name, filetype, file_encoding, route
+    for configname, configdata in kwargs.items():
+
+        if configname == "name":
+            name = configdata
+            f = open(name + filetype, mode="w", encoding=file_encoding)
+            f.close()
+
+        elif configname == "filetype":
+            filetype = configdata
+            f = open(name + filetype, mode="w", encoding=file_encoding)
+            f.close()
+
+        elif configname == "route":
+            route = configdata
+            f = open(route, mode="w", encoding=file_encoding)
+            f.close()
+
+        elif configname == "file_encoding":
+            try:
+                if absolutepath:
+                    tmpf = open(route, mode="w", encoding=configname)
+                else:
+                    tmpf = open(name+filetype, mode="w", encoding=configname)
+                tmpf.close()
+                file_encoding = configname
+                del tmpf
+                if absolutepath:
+                    f = open(route, mode="w", encoding=file_encoding)
+                else:
+                    f = open(name+filetype, mode="w", encoding=file_encoding)
+                f.close()
+            except LookupError:
+                warn("wrong file encoding config.this config is set to normal", pos="main_loggerjava")
+                file_encoding = "utf-8"
+
+        elif configname == "showdetailedtime":
+            if configdata or not configdata:
+                showdetailedtime = configdata
+            else:
+                tmpin = showinconsole
+                showinconsole = True
+                warn("wrong detailed time config.this config is set to normal", pos="main_loggerjava")
+                showinconsole = tmpin
+                showdetailedtime = False
+                del tmpin
+
+        elif configname == "showinconsole":
+            if configdata or not configdata:
+                showinconsole = configdata
+            else:
+                showinconsole = True
+                warn("wrong show in console config.this config is set to normal", pos="main_loggerjava")
+
+        elif configname == "absolutepath":
+            if configdata or not configdata:
+                absolutepath = configdata
+                if absolutepath:
+                    f = open(route, mode="w", encoding=file_encoding)
+                else:
+                    f = open(name+filetype, mode="w", encoding=file_encoding)
+                f.close()
+            else:
+                tmpin = showinconsole
+                showinconsole = True
+                warn("wrong absolute path config.this config is set to normal", pos="main_loggerjava")
+                showinconsole = tmpin
+                absolutepath = False
+                f = open(name + filetype, mode="w", encoding=file_encoding)
+                f.close()
+                del tmpin
 
 
 def version():
@@ -164,7 +252,9 @@ def exportconfig():
     returning as a lib
     :return:
     """
-    i = {"name": namein, "showdetailedtime": showdetailedtimein, "showinconsole": showinconsolein}
+    i = {"name": name, "filetype": filetype, "absolutepath": absolutepath,
+         "route": route, "showdetailedtime": showdetailedtime, "showinconsole": showinconsole,
+         "file_encoding": file_encoding}
     return i
 
 
@@ -174,23 +264,54 @@ def loadconfig(inputconfig):
     :param inputconfig: the config lib exported from exportconfig()
     :return:
     """
-    global namein, showdetailedtimein, showinconsolein
-    namein = inputconfig["name"]
-    f = open(namein + ".log", "w")
-    f.close()
-    if inputconfig["showdetailedtime"] or not inputconfig["showdetailedtime"]:
-        showdetailedtimein = inputconfig["showdetailedtime"]
+    global name, showdetailedtime, showinconsole, absolutepath, filetype, file_encoding, route
+
+    if inputconfig["absolutepath"] or not inputconfig["absolutepath"]:
+        absolutepath = inputconfig["absolutepath"]
     else:
-        tmpin = showinconsolein
-        showinconsolein = True
-        warn("wrong detailed time config.this config is set to normal", pos="main_loggerjava")
-        showinconsolein = tmpin
-        showdetailedtimein = False
+        tmpin = showinconsole
+        showinconsole = True
+        warn("wrong absolute path config.this config is set to normal", pos="main_loggerjava")
+        showinconsole = tmpin
+        absolutepath = False
         del tmpin
-    if inputconfig["showinconsole"] or not inputconfig["showinconsole"]:
-        showinconsolein = inputconfig["showinconsole"]
+
+    name = inputconfig["name"]
+    filetype = inputconfig["filetype"]
+    route = inputconfig["route"]
+
+    try:
+        if absolutepath:
+            tmpf = open(route, mode="w", encoding=inputconfig["file_encoding"])
+        else:
+            tmpf = open(name + filetype, mode="w", encoding=inputconfig["file_encoding"])
+        tmpf.close()
+        file_encoding = inputconfig["file_encoding"]
+        del tmpf
+    except LookupError:
+        warn("wrong file encoding config.this config is set to normal", pos="main_loggerjava")
+        file_encoding = "utf-8"
+
+    if absolutepath:
+        f = open(route, mode="at+", encoding=file_encoding)
     else:
-        showinconsolein = True
+        f = open(name + filetype, mode="at+", encoding=file_encoding)
+    f.close()
+
+    if inputconfig["showdetailedtime"] or not inputconfig["showdetailedtime"]:
+        showdetailedtime = inputconfig["showdetailedtime"]
+    else:
+        tmpin = showinconsole
+        showinconsole = True
+        warn("wrong detailed time config.this config is set to normal", pos="main_loggerjava")
+        showinconsole = tmpin
+        showdetailedtime = False
+        del tmpin
+
+    if inputconfig["showinconsole"] or not inputconfig["showinconsole"]:
+        showinconsole = inputconfig["showinconsole"]
+    else:
+        showinconsole = True
         warn("wrong show in console config.this config is set to normal", pos="main_loggerjava")
 
 # noinspection PyMethodParameters

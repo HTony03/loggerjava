@@ -18,13 +18,37 @@ logger.warn("test",pos="insidecommand")
 [20:39:00] [main/ERROR]: test
 [20:39:00] [main/FATAL]: test
 ```
+
+### Developing features
+- [ ] mutiple variable with different configs
+- [x] new config format
+
+
 ### Config
 ```python
-logger.confg(name="log", showdetailedtime=False, showinconsole=True)
+logger.confg(**kwargs)
 """
-:param name: output log file name
-:param showdetailedtime: output log time format,False for short time, True for long time
-:param showinconsole:whether output log will show in python console
+:param kwargs:input config names and config data
+format: config_name = config_data
+
+below are config_name and the description
+
+name : change the name of the log file, only actives when abolutepath config is off
+
+filetype : change the file type of the log file, only actives when abolutepath config is off
+
+absolutepath : change whether inputing the absolute path of the log file,
+True for using the name and filetype to create file in the program running location
+False for using the route to create file in the specific location(note:you need to enter the file format,like:test.log)
+
+route : change the file location, only activates when abolutepath config is on
+
+file_encoding : change the file encoding method
+
+showdetailedtime : whether to show detailed time in the log file
+
+showinconsole : whether to show the log in the python console
+
 :return:
 """
 ```
@@ -32,6 +56,8 @@ using `logger.exportconfig()` to export your current config
 
 and using `logger.inportconfig(inputconfig)` to inport your config
 ### Versions
+
+`0.0.6` change the config method, adding file_encoding,absolutepath,filetype config
 
 `0.0.5.1` rename outputconfig -> exportconfig
 
