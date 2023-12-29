@@ -26,7 +26,8 @@ logger.warn("test",pos="insidecommand")
 
 ### Config
 ```python
-logger.confg(**kwargs)
+import loggerjava
+loggerjava.config(**kwargs)
 """
 :param kwargs:input config names and config data
 format: config_name = config_data
@@ -56,6 +57,8 @@ using `logger.exportconfig()` to export your current config
 
 and using `logger.inportconfig(inputconfig)` to inport your config
 ### Versions
+
+`0.0.6.1` update readme
 
 `0.0.6` change the config method, adding file_encoding,absolutepath,filetype config
 
