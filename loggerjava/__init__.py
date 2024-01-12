@@ -10,6 +10,7 @@ showinconsole = True
 filetype = ".log"
 file_encoding = "utf-8"
 route = r"log.log"
+debugin = False
 
 
 # noinspection PyTypeChecker
@@ -34,6 +35,10 @@ def debug(txt, pos="main"):
         f.write(_output.format(time.asctime(), pos, level, txt))
     else:
         f.write(_output.format(_output.time1(), pos, level, txt))
+    if debugin and not showdetailedtime:
+        return _output.format(_output.time1(), pos, level, txt)
+    elif debugin and showdetailedtime:
+        return _output.format(time.asctime(), pos, level, txt)
     f.close()
 
 
@@ -59,6 +64,10 @@ def info(txt, pos="main"):
         f.write(_output.format(time.asctime(), pos, level, txt))
     else:
         f.write(_output.format(_output.time1(), pos, level, txt))
+    if debugin and not showdetailedtime:
+        return _output.format(_output.time1(), pos, level, txt)
+    elif debugin and showdetailedtime:
+        return _output.format(time.asctime(), pos, level, txt)
     f.close()
 
 
@@ -83,6 +92,10 @@ def warn(txt, pos="main"):
         f.write(_output.format(time.asctime(), pos, level, txt))
     else:
         f.write(_output.format(_output.time1(), pos, level, txt))
+    if debugin and not showdetailedtime:
+        return _output.format(_output.time1(), pos, level, txt)
+    elif debugin and showdetailedtime:
+        return _output.format(time.asctime(), pos, level, txt)
     f.close()
 
 
@@ -107,6 +120,10 @@ def error(txt, pos="main"):
         f.write(_output.format(time.asctime(), pos, level, txt))
     else:
         f.write(_output.format(_output.time1(), pos, level, txt))
+    if debugin and not showdetailedtime:
+        return _output.format(_output.time1(), pos, level, txt)
+    elif debugin and showdetailedtime:
+        return _output.format(time.asctime(), pos, level, txt)
     f.close()
 
 
@@ -131,6 +148,10 @@ def fatal(txt, pos="main"):
         f.write(_output.format(time.asctime(), pos, level, txt))
     else:
         f.write(_output.format(_output.time1(), pos, level, txt))
+    if debugin and not showdetailedtime:
+        return _output.format(_output.time1(), pos, level, txt)
+    elif debugin and showdetailedtime:
+        return _output.format(time.asctime(), pos, level, txt)
     f.close()
 
 
@@ -159,7 +180,7 @@ def config(**kwargs):
 
     :return:
     """
-    global showinconsole, showdetailedtime, absolutepath, name, filetype, file_encoding, route
+    global showinconsole, showdetailedtime, absolutepath, name, filetype, file_encoding, route,debugin
     for configname, configdata in kwargs.items():
 
         if configname == "name":
@@ -230,6 +251,8 @@ def config(**kwargs):
                 f = open(name + filetype, mode="w", encoding=file_encoding)
                 f.close()
                 del tmpin
+        elif configname == "debuging":
+            debugin = configdata
 
 
 def version():
