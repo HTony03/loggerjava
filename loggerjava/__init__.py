@@ -2,7 +2,7 @@ import time
 if __name__ == '__main__':
     pass
 
-ver = "v0.0.7"
+ver = "v0.0.7.1"
 name = "log"
 absolutepath = False
 showdetailedtime = False
