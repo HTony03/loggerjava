@@ -1,6 +1,6 @@
 [project]
 name = "loggerjava"
-version = "0.0.6.1"
+version = "v0.0.7"
 authors = [
   { name="HTony03", email="HTony03@foxmail.com" },
 ]

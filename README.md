@@ -58,6 +58,8 @@ using `logger.exportconfig()` to export your current config
 and using `logger.inportconfig(inputconfig)` to inport your config
 ### Versions
 
+`v0.0.7` no actual updates, updating version num to ver x.x.x
+
 `0.0.6.1` update readme
 
 `0.0.6` change the config method, adding file_encoding,absolutepath,filetype config

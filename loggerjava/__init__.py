@@ -2,7 +2,7 @@ import time
 if __name__ == '__main__':
     pass
 
-ver = "0.0.6.1"
+ver = "v0.0.7"
 name = "log"
 absolutepath = False
 showdetailedtime = False
@@ -15,7 +15,6 @@ route = r"log.log"
 # noinspection PyTypeChecker
 def debug(txt, pos="main"):
     """
-
         :param txt: the detail description of this log
         :param pos: show where the log's actual called positon in the code
         :return:
@@ -40,7 +39,6 @@ def debug(txt, pos="main"):
 
 def info(txt, pos="main"):
     """
-
         :param txt: the detail description of this log
         :param pos: show where the log's actual called positon in the code
         :return:
@@ -66,7 +64,6 @@ def info(txt, pos="main"):
 
 def warn(txt, pos="main"):
     """
-
         :param txt: the detail description of this log
         :param pos: show where the log's actual called positon in the code
         :return:
@@ -91,7 +88,6 @@ def warn(txt, pos="main"):
 
 def error(txt, pos="main"):
     """
-
         :param txt: the detail description of this log
         :param pos: show where the log's actual called positon in the code
         :return:
@@ -116,7 +112,6 @@ def error(txt, pos="main"):
 
 def fatal(txt, pos="main"):
     """
-
     :param txt: the detail description of this log
     :param pos: show where the log's actual called positon in the code
     :return:
@@ -260,7 +255,6 @@ def exportconfig():
 
 def loadconfig(inputconfig):
     """
-
     :param inputconfig: the config lib exported from exportconfig()
     :return:
     """
