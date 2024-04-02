@@ -50,6 +50,8 @@ showdetailedtime : whether to show detailed time in the log file
 
 showinconsole : whether to show the log in the python console
 
+fatalexit : whether to exit the program after a fatal log
+
 :return:
 """
 ```
@@ -57,6 +59,8 @@ using `logger.exportconfig()` to export your current config
 
 and using `logger.inportconfig(inputconfig)` to inport your config
 ### Versions
+
+`v0.0.7.2` adding the "fatalexit" feature,adding an easier log function(not completed)
 
 `v0.0.7.1` adding debug config,adding debug
 

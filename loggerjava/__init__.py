@@ -2,7 +2,7 @@ import time
 if __name__ == '__main__':
     pass
 
-ver = "v0.0.7.1"
+ver = "v0.0.7.2"
 name = "log"
 absolutepath = False
 showdetailedtime = False
@@ -181,7 +181,7 @@ def config(**kwargs):
 
     showinconsole : whether to show the log in the python console
 
-    fatalclose : whether to exit the program after a fatal log
+    fatalexit : whether to exit the program after a fatal log
 
     :return:
     """
@@ -258,7 +258,7 @@ def config(**kwargs):
                 del tmpin
         elif configname == "debuging":
             debugin = configdata
-        elif configname == "fatalclose":
+        elif configname == "fatalexit":
             if configdata or not configdata:
                 fatalclose = configdata
             else:
@@ -346,6 +346,13 @@ def loadconfig(inputconfig):
 
 
 class _output:
+    def typeformat(type):
+        debugformat = ["D","d","DEBUG","debug"]
+        infoformat = ["I","i","INFO","info"]
+        if type in debugformat:
+            return "DEBUG"
+        elif type in infoformat:
+            return "INFO"
 
     def format(time1, place, level, txt):
         return "[%s] [%s/%s]: %s\n" % (time1, place, level, txt)
