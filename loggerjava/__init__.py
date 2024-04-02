@@ -11,6 +11,7 @@ filetype = ".log"
 file_encoding = "utf-8"
 route = r"log.log"
 debugin = False
+fatalclose = False
 
 
 # noinspection PyTypeChecker
@@ -18,7 +19,7 @@ def debug(txt, pos="main"):
     """
         :param txt: the detail description of this log
         :param pos: show where the log's actual called positon in the code
-        :return:
+        :return: debug log
         """
     level = 'debug'
     if absolutepath:
@@ -46,7 +47,7 @@ def info(txt, pos="main"):
     """
         :param txt: the detail description of this log
         :param pos: show where the log's actual called positon in the code
-        :return:
+        :return: info log
         """
     level = 'INFO'
     if absolutepath:
@@ -75,7 +76,7 @@ def warn(txt, pos="main"):
     """
         :param txt: the detail description of this log
         :param pos: show where the log's actual called positon in the code
-        :return:
+        :return: warning log
         """
     level = 'WARN'
     if absolutepath:
@@ -103,7 +104,7 @@ def error(txt, pos="main"):
     """
         :param txt: the detail description of this log
         :param pos: show where the log's actual called positon in the code
-        :return:
+        :return: error log
         """
     level = 'ERROR'
     if absolutepath:
@@ -131,7 +132,7 @@ def fatal(txt, pos="main"):
     """
     :param txt: the detail description of this log
     :param pos: show where the log's actual called positon in the code
-    :return:
+    :return: fatal log
     """
     level = 'FATAL'
     if absolutepath:
@@ -153,6 +154,8 @@ def fatal(txt, pos="main"):
     elif debugin and showdetailedtime:
         return _output.format(time.asctime(), pos, level, txt)
     f.close()
+    if fatalclose:
+        exit(10)
 
 
 def config(**kwargs):
@@ -177,6 +180,8 @@ def config(**kwargs):
     showdetailedtime : whether to show detailed time in the log file
 
     showinconsole : whether to show the log in the python console
+
+    fatalclose : whether to exit the program after a fatal log
 
     :return:
     """
@@ -253,6 +258,12 @@ def config(**kwargs):
                 del tmpin
         elif configname == "debuging":
             debugin = configdata
+        elif configname == "fatalclose":
+            if configdata or not configdata:
+                fatalclose = configdata
+            else:
+                warn("wrong fatal exit config.this config is set to normal", pos="main_loggerjava")
+                fatalclose = False                
 
 
 def version():
