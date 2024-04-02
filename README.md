@@ -22,6 +22,7 @@ logger.warn("test",pos="insidecommand")
 ### Developing features
 - [ ] mutiple variable with different configs
 - [x] new config format
+- [ ] catch and format errors
 
 
 ### Config
