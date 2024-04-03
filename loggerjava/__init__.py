@@ -15,6 +15,34 @@ fatalclose = False
 
 
 # noinspection PyTypeChecker
+def log(txt,type="i",pos="main"):
+    """
+        :param txt: the detail description of this log
+        :param pos: show where the log's actual called positon in the code
+        :return: log
+        """
+    level = _output.typeformat(type)
+    if absolutepath:
+        f = open(route, mode="at+", encoding=file_encoding)
+    else:
+        f = open(name + filetype, mode="at+", encoding=file_encoding)
+    if showdetailedtime and showinconsole:
+        # noinspection PyTypeChecker
+        f.write(_output.format(time.asctime(), pos, level, txt))
+        print(_output.format(time.asctime(), pos, level, txt))
+    elif not showdetailedtime and showinconsole:
+        f.write(_output.format(_output.time1(), pos, level, txt))
+        print(_output.format(_output.time1(), pos, level, txt))
+    elif showdetailedtime and not showinconsole:
+        f.write(_output.format(time.asctime(), pos, level, txt))
+    else:
+        f.write(_output.format(_output.time1(), pos, level, txt))
+    if debugin and not showdetailedtime:
+        return _output.format(_output.time1(), pos, level, txt)
+    elif debugin and showdetailedtime:
+        return _output.format(time.asctime(), pos, level, txt)
+    f.close()
+
 def debug(txt, pos="main"):
     """
         :param txt: the detail description of this log
@@ -283,7 +311,7 @@ def exportconfig():
     """
     i = {"name": name, "filetype": filetype, "absolutepath": absolutepath,
          "route": route, "showdetailedtime": showdetailedtime, "showinconsole": showinconsole,
-         "file_encoding": file_encoding}
+         "file_encoding": file_encoding,"fatalexit" : fatalclose}
     return i
 
 
@@ -342,6 +370,17 @@ def loadconfig(inputconfig):
         showinconsole = True
         warn("wrong show in console config.this config is set to normal", pos="main_loggerjava")
 
+    if inputconfig["fatalexit"] or not inputconfig["fatalexit"]:
+        fatalclose = inputconfig["fatalexit"]
+    else:
+        fatalclose = False
+        tmpin = showinconsole
+        showinconsole = True
+        warn("wrong fatal close config.this config is set to normal", pos="main_loggerjava")
+        showinconsole = tmpin
+        del(tmpin)
+
+
 # noinspection PyMethodParameters
 
 
@@ -349,10 +388,23 @@ class _output:
     def typeformat(type):
         debugformat = ["D","d","DEBUG","debug"]
         infoformat = ["I","i","INFO","info"]
+        warnformat = ["W","w","WARN","warn"]
+        errorformat = ["E","e","ERROR","error"]
+        fatalformat = ["F","f","FATAL","fatal"]
+        
         if type in debugformat:
             return "DEBUG"
         elif type in infoformat:
             return "INFO"
+        elif type in warnformat:
+            return "WARN"
+        elif type in errorformat:
+            return "ERROR"
+        elif type in fatalformat:
+            return "FATAL"
+        else:
+            warn("unknown given format",pos="main_loggerjava")
+            return "WARN"
 
     def format(time1, place, level, txt):
         return "[%s] [%s/%s]: %s\n" % (time1, place, level, txt)
