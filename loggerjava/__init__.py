@@ -1,5 +1,5 @@
 import time
-import loggerjava.test_loggerjava
+import loggerjava
 
 if __name__ == '__main__':
     pass
@@ -228,7 +228,7 @@ def version():
 
 
 def test():
-    test_loggerjava.testin()
+    loggerjava.test_loggerjava.testin()
 
 
 def exportconfig():
