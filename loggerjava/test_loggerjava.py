@@ -37,4 +37,4 @@ def testin():
     assert logger.info("test8") == "[" + time.asctime() + "] [main/INFO]: test8\n"
 
 if __name__ == "__main__":
-    test()
+    testin()
