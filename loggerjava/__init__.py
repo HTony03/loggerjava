@@ -175,7 +175,7 @@ def config(**kwargs):
                 file_encoding = "utf-8"
 
         elif configname == "showdetailedtime":
-            if _formats.testformat(configdata,1):
+            if _formats.testformat(configdata, 1):
                 showdetailedtime = configdata
             else:
                 tmpin = showinconsole
@@ -186,14 +186,14 @@ def config(**kwargs):
                 del tmpin
 
         elif configname == "showinconsole":
-            if _formats.testformat(configdata,1):
+            if _formats.testformat(configdata, 1):
                 showinconsole = configdata
             else:
                 showinconsole = True
                 warn("wrong show in console config.this config is set to normal", pos="main_loggerjava")
 
         elif configname == "absolutepath":
-            if _formats.testformat(configdata,1):
+            if _formats.testformat(configdata, 1):
                 absolutepath = configdata
                 if absolutepath:
                     f = open(route, mode="w", encoding=file_encoding)
@@ -212,7 +212,7 @@ def config(**kwargs):
         elif configname == "debuging":
             debugin = configdata
         elif configname == "fatalexit":
-            if _formats.testformat(configdata,1):
+            if _formats.testformat(configdata, 1):
                 fatalclose = configdata
             else:
                 warn("wrong fatal exit config.this config is set to normal", pos="main_loggerjava")
@@ -251,7 +251,7 @@ def loadconfig(inputconfig):
     """
     global name, showdetailedtime, showinconsole, absolutepath, filetype, file_encoding, route, fatalclose
 
-    if _formats.testformat(inputconfig["absolutepath"],1):
+    if _formats.testformat(inputconfig["absolutepath"], 1):
         absolutepath = inputconfig["absolutepath"]
     else:
         tmpin = showinconsole
@@ -283,7 +283,7 @@ def loadconfig(inputconfig):
         f = open(name + filetype, mode="at+", encoding=file_encoding)
     f.close()
 
-    if _formats.testformat(inputconfig["showdetailedtime"],1):
+    if _formats.testformat(inputconfig["showdetailedtime"], 1):
         showdetailedtime = inputconfig["showdetailedtime"]
     else:
         tmpin = showinconsole
@@ -293,13 +293,13 @@ def loadconfig(inputconfig):
         showdetailedtime = False
         del tmpin
 
-    if _formats.testformat(inputconfig["showinconsole"],1):
+    if _formats.testformat(inputconfig["showinconsole"], 1):
         showinconsole = inputconfig["showinconsole"]
     else:
         showinconsole = True
         warn("wrong show in console config.this config is set to normal", pos="main_loggerjava")
 
-    if _formats.testformat(inputconfig["fatalexit"],1):
+    if _formats.testformat(inputconfig["fatalexit"], 1):
         fatalclose = inputconfig["fatalexit"]
     else:
         fatalclose = False
