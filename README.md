@@ -62,7 +62,7 @@ using `logger.exportconfig()` to export your current config
 and using `logger.inportconfig(inputconfig)` to inport your config
 ### Versions
 
-`v0.7.5+build.1` follow SemVer, no actual updates
+`v0.7.5.dev1` follow SemVer, no actual updates
 
 `v0.0.7.5` edited the original log codes,adding "log" feature,add the fatalexit config
 

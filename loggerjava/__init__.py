@@ -4,7 +4,7 @@ import loggerjava
 if __name__ == '__main__':
     pass
 
-ver = "v0.7.5+build.1"
+ver = "v0.7.5.dev1"
 name = "log"
 absolutepath = False
 showdetailedtime = False
