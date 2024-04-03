@@ -23,6 +23,7 @@ logger.warn("test",pos="insidecommand")
 - [ ] mutiple variable with different configs
 - [x] new config format
 - [ ] catch and format errors
+- [ ] override config once
 
 
 ### Config
@@ -60,6 +61,8 @@ using `logger.exportconfig()` to export your current config
 
 and using `logger.inportconfig(inputconfig)` to inport your config
 ### Versions
+
+`v0.0.7.5` edited the original log codes,adding "log" feature,add the fatalexit config
 
 `v0.0.7.2` adding the "fatalexit" feature,adding an easier log function(not completed)
 

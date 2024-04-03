@@ -16,75 +16,75 @@ class loggerjava:
         level = 'debug'
         f = open(self.name + ".log", "at+")
         if self.showdetailedtime and self.showinconsole:
-            f.write(self._output.format(time.asctime(), pos, level, txt))
-            print(self._output.format(time.asctime(), pos, level, txt))
+            f.write(self._formats.format(time.asctime(), pos, level, txt))
+            print(self._formats.format(time.asctime(), pos, level, txt))
         elif not self.showdetailedtime and self.showinconsole:
-            f.write(self._output.format(self._output.time1(), pos, level, txt))
-            print(self._output.format(self._output.time1(), pos, level, txt))
+            f.write(self._formats.format(self._formats.time1(), pos, level, txt))
+            print(self._formats.format(self._formats.time1(), pos, level, txt))
         elif self.showdetailedtime and not self.showinconsole:
-            f.write(self._output.format(time.asctime(), pos, level, txt))
+            f.write(self._formats.format(time.asctime(), pos, level, txt))
         else:
-            f.write(self._output.format(self._output.time1(), pos, level, txt))
+            f.write(self._formats.format(self._formats.time1(), pos, level, txt))
         f.close()
 
     def info(self, txt, pos="main"):
         level = 'INFO'
         f = open(self.name+".log", "at+")
         if self.showdetailedtime and self.showinconsole:
-            f.write(self._output.format(time.asctime(), pos, level, txt))
-            print(self._output.format(time.asctime(), pos, level, txt))
+            f.write(self._formats.format(time.asctime(), pos, level, txt))
+            print(self._formats.format(time.asctime(), pos, level, txt))
         elif not self.showdetailedtime and self.showinconsole:
-            f.write(self._output.format(self._output.time1(), pos, level, txt))
-            print(self._output.format(self._output.time1(), pos, level, txt))
+            f.write(self._formats.format(self._formats.time1(), pos, level, txt))
+            print(self._formats.format(self._formats.time1(), pos, level, txt))
         elif self.showdetailedtime and not self.showinconsole:
-            f.write(self._output.format(time.asctime(), pos, level, txt))
+            f.write(self._formats.format(time.asctime(), pos, level, txt))
         else:
-            f.write(self._output.format(self._output.time1(), pos, level, txt))
+            f.write(self._formats.format(self._formats.time1(), pos, level, txt))
         f.close()
 
     def warn(self, txt, pos="main"):
         level = 'WARN'
         f = open(self.name + ".log", "at+")
         if self.showdetailedtime and self.showinconsole:
-            f.write(self._output.format(time.asctime(), pos, level, txt))
-            print(self._output.format(time.asctime(), pos, level, txt))
+            f.write(self._formats.format(time.asctime(), pos, level, txt))
+            print(self._formats.format(time.asctime(), pos, level, txt))
         elif not self.showdetailedtime and self.showinconsole:
-            f.write(self._output.format(self._output.time1(), pos, level, txt))
-            print(self._output.format(self._output.time1(), pos, level, txt))
+            f.write(self._formats.format(self._formats.time1(), pos, level, txt))
+            print(self._formats.format(self._formats.time1(), pos, level, txt))
         elif self.showdetailedtime and not self.showinconsole:
-            f.write(self._output.format(time.asctime(), pos, level, txt))
+            f.write(self._formats.format(time.asctime(), pos, level, txt))
         else:
-            f.write(self._output.format(self._output.time1(), pos, level, txt))
+            f.write(self._formats.format(self._formats.time1(), pos, level, txt))
         f.close()
 
     def Error(self, txt, pos="main"):
         level = 'ERROR'
         f = open(self.name + ".log", "at+")
         if self.showdetailedtime and self.showinconsole:
-            f.write(self._output.format(time.asctime(), pos, level, txt))
-            print(self._output.format(time.asctime(), pos, level, txt))
+            f.write(self._formats.format(time.asctime(), pos, level, txt))
+            print(self._formats.format(time.asctime(), pos, level, txt))
         elif not self.showdetailedtime and self.showinconsole:
-            f.write(self._output.format(self._output.time1(), pos, level, txt))
-            print(self._output.format(self._output.time1(), pos, level, txt))
+            f.write(self._formats.format(self._formats.time1(), pos, level, txt))
+            print(self._formats.format(self._formats.time1(), pos, level, txt))
         elif self.showdetailedtime and not self.showinconsole:
-            f.write(self._output.format(time.asctime(), pos, level, txt))
+            f.write(self._formats.format(time.asctime(), pos, level, txt))
         else:
-            f.write(self._output.format(self._output.time1(), pos, level, txt))
+            f.write(self._formats.format(self._formats.time1(), pos, level, txt))
         f.close()
 
     def FATAL(self, txt, pos="main"):
         level = 'FATAL'
         f = open(self.name + ".log", "at+")
         if self.showdetailedtime and self.showinconsole:
-            f.write(self._output.format(time.asctime(), pos, level, txt))
-            print(self._output.format(time.asctime(), pos, level, txt))
+            f.write(self._formats.format(time.asctime(), pos, level, txt))
+            print(self._formats.format(time.asctime(), pos, level, txt))
         elif not self.showdetailedtime and self.showinconsole:
-            f.write(self._output.format(self._output.time1(), pos, level, txt))
-            print(self._output.format(self._output.time1(), pos, level, txt))
+            f.write(self._formats.format(self._formats.time1(), pos, level, txt))
+            print(self._formats.format(self._formats.time1(), pos, level, txt))
         elif self.showdetailedtime and not self.showinconsole:
-            f.write(self._output.format(time.asctime(), pos, level, txt))
+            f.write(self._formats.format(time.asctime(), pos, level, txt))
         else:
-            f.write(self._output.format(self._output.time1(), pos, level, txt))
+            f.write(self._formats.format(self._formats.time1(), pos, level, txt))
         f.close()
 
     def config(self, name="log", showdetailedtime=False, showinconsole=False):
@@ -103,7 +103,7 @@ class loggerjava:
             self.showinconsole = False
 
     # noinspection PyMethodParameters
-    class _output:
+    class _formats:
         def format(time1, place, level, txt):
             return "[%s] [%s/%s]: %s\n" % (time1, place, level, txt)
 
