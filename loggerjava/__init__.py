@@ -1,4 +1,5 @@
 import time
+import loggerjava.test_loggerjava
 if __name__ == '__main__':
     pass
 
@@ -68,6 +69,8 @@ def debug(txt, pos="main"):
         return _output.format(_output.time1(), pos, level, txt)
     elif debugin and showdetailedtime:
         return _output.format(time.asctime(), pos, level, txt)
+    elif not debugin:
+        pass
     f.close()
 
 
@@ -300,6 +303,10 @@ def version():
     :return:
     """
     print("Current loggerjava ver:%s" % ver)
+
+
+def test():
+    test_loggerjava.testin()
 
 
 def exportconfig():

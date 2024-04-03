@@ -13,20 +13,28 @@ class MyTestCase(unittest.TestCase):
 if __name__ == '__main__':
     unittest.main()
 """
-def test():
-    lj.config(debuging = True)
+
+def testin():
+
+    logger = lj
+    logger.config(debuging = True,showdetailedtime = False)
     print("\n")
-    assert lj.info("test1") == "["+str(time.localtime().tm_hour).rjust(2, "0") + ":" + \
+    assert logger.info("test1") == "["+str(time.localtime().tm_hour).rjust(2, "0") + ":" + \
             str(time.localtime().tm_min).rjust(2, "0") + ":" + str(time.localtime().tm_sec).rjust(2, "0")+"] [main/INFO]: test1\n"
-    assert lj.debug("test2") == "[" + str(time.localtime().tm_hour).rjust(2, "0") + ":" + \
+    assert logger.debug("test2") == "[" + str(time.localtime().tm_hour).rjust(2, "0") + ":" + \
            str(time.localtime().tm_min).rjust(2, "0") + ":" + str(time.localtime().tm_sec).rjust(2,"0") + "] [main/debug]: test2\n"
-    assert lj.warn("test3") == "[" + str(time.localtime().tm_hour).rjust(2, "0") + ":" + \
+    assert logger.warn("test3") == "[" + str(time.localtime().tm_hour).rjust(2, "0") + ":" + \
            str(time.localtime().tm_min).rjust(2, "0") + ":" + str(time.localtime().tm_sec).rjust(2,"0") + "] [main/WARN]: test3\n"
-    assert lj.error("test4") == "[" + str(time.localtime().tm_hour).rjust(2, "0") + ":" + \
+    assert logger.error("test4") == "[" + str(time.localtime().tm_hour).rjust(2, "0") + ":" + \
            str(time.localtime().tm_min).rjust(2, "0") + ":" + str(time.localtime().tm_sec).rjust(2,"0") + "] [main/ERROR]: test4\n"
-    assert lj.fatal("test5") == "[" + str(time.localtime().tm_hour).rjust(2, "0") + ":" + \
+    assert logger.fatal("test5") == "[" + str(time.localtime().tm_hour).rjust(2, "0") + ":" + \
            str(time.localtime().tm_min).rjust(2, "0") + ":" + str(time.localtime().tm_sec).rjust(2,"0") + "] [main/FATAL]: test5\n"
-    lj.config(name = "test")
-    assert lj.name == "test"
-    lj.config(showdetailedtime = True)
-    assert lj.info("test7") == "[" + time.asctime() + "] [main/INFO]: test7\n"
+    assert logger.info("test6",pos="testing") == "[" + str(time.localtime().tm_hour).rjust(2, "0") + ":" + \
+           str(time.localtime().tm_min).rjust(2, "0") + ":" + str(time.localtime().tm_sec).rjust(2,"0") + "] [testing/INFO]: test6\n"
+    logger.config(name = "test")
+    assert logger.name == "test"
+    logger.config(showdetailedtime = True)
+    assert logger.info("test8") == "[" + time.asctime() + "] [main/INFO]: test8\n"
+
+if __name__ == "__main__":
+    test()
