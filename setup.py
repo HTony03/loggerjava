@@ -25,7 +25,7 @@ setup(
     long_description=long_description,
     packages=find_packages(),
     install_requires=[],
-    keywords=['python','logger'],
+    keywords=["python","logger","java_like"],
     classifiers=[
         "Development Status :: 1 - Planning",
         "Intended Audience :: Developers",
