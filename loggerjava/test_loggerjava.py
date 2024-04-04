@@ -42,7 +42,9 @@ def testin():
     logger.config(showdetailedtime=True)
     assert logger.info("test8") == "[" + time.asctime() + "] [main/INFO]: test8\n"
     logger.config(showdetailedtime=False)
-    assert logger.log("testoverride",type="d",showdetailedtime=True) == "[" + time.asctime() + "] [main/debug]: testoverride\n"
+    assert logger.log("testoverride", type="d",
+                      showdetailedtime=True) == "[" + time.asctime() + "] [main/debug]: testoverride\n"
+    assert logger.warn("testoverride", showdetailedtime=True) == "[" + time.asctime() + "] [main/WARN]: testoverride\n"
 
 
 if __name__ == "__main__":

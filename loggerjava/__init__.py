@@ -1,10 +1,19 @@
 import time
 import loggerjava
+import loggerjava.exceptionhandler
 
 if __name__ == '__main__':
+    def test1(a):
+        print(b)
+
+
+    try:
+        test1(1)
+    except Exception as e:
+        print(loggerjava.exceptionhandler.handler(e))
     pass
 
-ver = "v0.7.6"
+ver = "v0.8.0.dev1"
 name = "log"
 absolutepath = False
 showdetailedtime = False
@@ -21,35 +30,41 @@ def log(txt, type="i", pos="main", **overrides):
     """
         :param txt: the detail description of this log
         :param type: the type of the log,using:debug,info,warn,error,fatal
+        accept types:
+        debug: "D", "d", "debug"
+        info: "I", "i", "INFO", "info"
+        warn:"W", "w", "WARN", "warn"
+        error:"E", "e", "ERROR", "error"
+        fatal:"F", "f", "FATAL", "fatal"
+
         :param pos: show where the log's actual called positon in the code
         :param overrides: the overrides of the current config,only actives once
         available overrides: showinconsole , showdetailedtime
+        format: override_name = override_value
         :return: log
         """
     detailtime = showdetailedtime
     inconsole = showinconsole
     debugmodein = debugmode
     for overridename, data in overrides.items():
-        pass
         if overridename == "showdetailedtime":
-            if _formats.testformat(data,1):
+            if _formats.testformat(data, 1):
                 detailtime = data
             else:
-                log("wrong detailed time override. Set as False", type="W",pos="main_loggerjava",showinconsole=True)
+                log("wrong detailed time override. Set as False", type="W", pos="main_loggerjava", showinconsole=True)
                 detailtime = False
         elif overridename == "showinconsole":
-            if _formats.testformat(data,1):
+            if _formats.testformat(data, 1):
                 inconsole = data
             else:
                 log("wrong show in console override. Set as True", type="W", pos="main_loggerjava", showinconsole=True)
                 inconsole = True
         elif overridename == "debugmode":
-            if _formats.testformat(data,1):
+            if _formats.testformat(data, 1):
                 debugmodein = data
             else:
                 log("wrong debug override. Set as False", type="W", pos="main_loggerjava", showinconsole=True)
                 debugmodein = False
-
 
     level = _formats.typeformat(type)
     if absolutepath:
@@ -67,67 +82,75 @@ def log(txt, type="i", pos="main", **overrides):
         f.close()
     if debugmodein:
         return _formats.format(timelog, pos, level, txt)
-    del detailtime,inconsole,debugmodein
+    del detailtime, inconsole, debugmodein
 
 
-def debug(txt, pos="main"):
+def debug(txt, pos="main", **overrides):
     """
         :param txt: the detail description of this log
         :param pos: show where the log's actual called positon in the code
+        :param overrides: the overrides of the current config,only actives once
+        available overrides: showinconsole , showdetailedtime
         :return: debug log
         """
     if debugmode:
-        return log(txt, type='debug', pos=pos)
+        return log(txt, type='debug', pos=pos, **overrides)
     else:
-        log(txt, type='debug', pos=pos)
+        log(txt, type='debug', pos=pos, **overrides)
 
 
-def info(txt, pos="main"):
+def info(txt, pos="main", **overrides):
     """
         :param txt: the detail description of this log
         :param pos: show where the log's actual called positon in the code
         :return: info log
         """
     if debugmode:
-        return log(txt, type='INFO', pos=pos)
+        return log(txt, type='INFO', pos=pos, **overrides)
     else:
-        log(txt, type='INFO', pos=pos)
+        log(txt, type='INFO', pos=pos, **overrides)
 
 
-def warn(txt, pos="main"):
+def warn(txt, pos="main", **overrides):
     """
         :param txt: the detail description of this log
         :param pos: show where the log's actual called positon in the code
+        :param overrides: the overrides of the current config,only actives once
+        available overrides: showinconsole , showdetailedtime
         :return: warning log
         """
     if debugmode:
-        return log(txt, type='WARN', pos=pos)
+        return log(txt, type='WARN', pos=pos, **overrides)
     else:
-        log(txt, type='WARN', pos=pos)
+        log(txt, type='WARN', pos=pos, **overrides)
 
 
-def error(txt, pos="main"):
+def error(txt, pos="main", **overrides):
     """
         :param txt: the detail description of this log
         :param pos: show where the log's actual called positon in the code
+        :param overrides: the overrides of the current config,only actives once
+        available overrides: showinconsole , showdetailedtime
         :return: error log
         """
     if debugmode:
-        return log(txt, type='ERROR', pos=pos)
+        return log(txt, type='ERROR', pos=pos, **overrides)
     else:
-        log(txt, type='ERROR', pos=pos)
+        log(txt, type='ERROR', pos=pos, **overrides)
 
 
-def fatal(txt, pos="main"):
+def fatal(txt, pos="main", **overrides):
     """
-    :param txt: the detail description of this log
-    :param pos: show where the log's actual called positon in the code
-    :return: fatal log
+        :param txt: the detail description of this log
+        :param pos: show where the log's actual called positon in the code
+        :param overrides: the overrides of the current config,only actives once
+        available overrides: showinconsole , showdetailedtime
+        :return: fatal log
     """
     if debugmode:
-        return log(txt, type='FATAL', pos=pos)
+        return log(txt, type='FATAL', pos=pos, **overrides)
     else:
-        log(txt, type='FATAL', pos=pos)
+        log(txt, type='FATAL', pos=pos, **overrides)
     if fatalclose:
         exit(10)
 
@@ -145,10 +168,11 @@ def config(**kwargs):
 
     absolutepath : change whether inputing the absolute path of the log file,
     True for using the name and fileextension to create file in the program running location
-    False for using the route to create file in the specific location(note:you need to enter the file format,like:test.log)
+    False for using the route to create file in the specific location
+    (note:the route should contain the extension of the file,like:D:\test.log)
 
     route : change the file location, only activates when abolutepath config is on
-    the route should contain the
+    the route should contain the extension of the file
 
     file_encoding : change the file encoding method
 
@@ -193,26 +217,25 @@ def config(**kwargs):
                     f = open(name + fileextension, mode="w", encoding=file_encoding)
                 f.close()
             except LookupError:
-                warn("wrong file encoding config.this config is set to normal", pos="main_loggerjava")
+                warn("wrong file encoding config.this config is set to default", pos="main_loggerjava",
+                     showinconsole=True)
                 file_encoding = "utf-8"
 
         elif configname == "showdetailedtime":
             if _formats.testformat(configdata, 1):
                 showdetailedtime = configdata
             else:
-                tmpin = showinconsole
-                showinconsole = True
-                warn("wrong detailed time config.this config is set to normal", pos="main_loggerjava")
-                showinconsole = tmpin
+                warn("wrong detailed time config.this config is set to default", pos="main_loggerjava",
+                     showinconsole=True)
                 showdetailedtime = False
-                del tmpin
 
         elif configname == "showinconsole":
             if _formats.testformat(configdata, 1):
                 showinconsole = configdata
             else:
                 showinconsole = True
-                warn("wrong show in console config.this config is set to normal", pos="main_loggerjava")
+                warn("wrong show in console config.this config is set to default", pos="main_loggerjava",
+                     showinconsole=True)
 
         elif configname == "absolutepath":
             if _formats.testformat(configdata, 1):
@@ -223,23 +246,33 @@ def config(**kwargs):
                     f = open(name + fileextension, mode="w", encoding=file_encoding)
                 f.close()
             else:
-                tmpin = showinconsole
-                showinconsole = True
-                warn("wrong absolute path config.this config is set to normal", pos="main_loggerjava")
-                showinconsole = tmpin
+                warn("wrong absolute path config.this config is set to default", pos="main_loggerjava",
+                     showinconsole=True)
                 absolutepath = False
                 f = open(name + fileextension, mode="w", encoding=file_encoding)
                 f.close()
-                del tmpin
         elif configname == "debugmode":
             debugmode = configdata
         elif configname == "fatalexit":
             if _formats.testformat(configdata, 1):
                 fatalclose = configdata
             else:
-                warn("wrong fatal exit config.this config is set to normal", pos="main_loggerjava")
+                warn("wrong fatal exit config.this config is set to default", pos="main_loggerjava", showinconsole=True)
                 fatalclose = False
-        #log("all given configs modified",type="D",pos="main_loggerjava.config",showinconsole=False)
+        # log("all given configs modified",type="D",pos="main_loggerjava.config",showinconsole=False)
+
+
+def clearcurrentlog():
+    """
+    clean the current log file
+    :return: nothing
+    """
+    if absolutepath:
+        f = open(route, mode="w", encoding=file_encoding)
+    else:
+        f = open(name + fileextension, mode="w", encoding=file_encoding)
+    f.write("")
+    f.close()
 
 
 def version():
@@ -277,12 +310,8 @@ def loadconfig(inputconfig):
     if _formats.testformat(inputconfig["absolutepath"], 1):
         absolutepath = inputconfig["absolutepath"]
     else:
-        tmpin = showinconsole
-        showinconsole = True
-        warn("wrong absolute path config.this config is set to normal", pos="main_loggerjava")
-        showinconsole = tmpin
+        warn("wrong absolute path config.this config is set to default", pos="main_loggerjava", showinconsole=True)
         absolutepath = False
-        del tmpin
 
     name = inputconfig["name"]
     fileextension = inputconfig["fileextension"]
@@ -297,7 +326,7 @@ def loadconfig(inputconfig):
         file_encoding = inputconfig["file_encoding"]
         del tmpf
     except LookupError:
-        warn("wrong file encoding config.this config is set to normal", pos="main_loggerjava")
+        warn("wrong file encoding config.this config is set to default", pos="main_loggerjava", showinconsole=True)
         file_encoding = "utf-8"
 
     if absolutepath:
@@ -309,28 +338,20 @@ def loadconfig(inputconfig):
     if _formats.testformat(inputconfig["showdetailedtime"], 1):
         showdetailedtime = inputconfig["showdetailedtime"]
     else:
-        tmpin = showinconsole
-        showinconsole = True
-        warn("wrong detailed time config.this config is set to normal", pos="main_loggerjava")
-        showinconsole = tmpin
+        warn("wrong detailed time config.this config is set to default", pos="main_loggerjava", showinconsole=True)
         showdetailedtime = False
-        del tmpin
 
     if _formats.testformat(inputconfig["showinconsole"], 1):
         showinconsole = inputconfig["showinconsole"]
     else:
         showinconsole = True
-        warn("wrong show in console config.this config is set to normal", pos="main_loggerjava")
+        warn("wrong show in console config.this config is set to default", pos="main_loggerjava", showinconsole=True)
 
     if _formats.testformat(inputconfig["fatalexit"], 1):
         fatalclose = inputconfig["fatalexit"]
     else:
         fatalclose = False
-        tmpin = showinconsole
-        showinconsole = True
-        warn("wrong fatal close config.this config is set to normal", pos="main_loggerjava")
-        showinconsole = tmpin
-        del tmpin
+        warn("wrong fatal close config.this config is set to default", pos="main_loggerjava", showinconsole=True)
 
 
 # noinspection PyMethodParameters
@@ -338,7 +359,7 @@ def loadconfig(inputconfig):
 
 class _formats:
     def typeformat(type):
-        debugformat = ["D", "d", "DEBUG", "debug"]
+        debugformat = ["D", "d", "debug"]
         infoformat = ["I", "i", "INFO", "info"]
         warnformat = ["W", "w", "WARN", "warn"]
         errorformat = ["E", "e", "ERROR", "error"]
@@ -355,7 +376,7 @@ class _formats:
         elif type in fatalformat:
             return "FATAL"
         else:
-            warn("unknown given format", pos="main_loggerjava")
+            warn("unknown given format", pos="main_loggerjava", showinconsole=True)
             return "WARN"
 
     def testformat(name, type):

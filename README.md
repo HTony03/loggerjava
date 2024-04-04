@@ -62,7 +62,30 @@ fatalexit : whether to exit the program after a fatal log
 using `logger.exportconfig()` to export your current config
 
 and using `logger.inportconfig(inputconfig)` to inport your config
+
+### Exception handler
+using the `loggerjava.exceptionhandler.exception(exc)` function to process an Exception
+
+```python
+import loggerjava
+import loggerjava.exceptionhandler
+def test1(a):
+    print(b)
+if __name__ == "__main__":
+    try:
+        test1(1)
+    except Exception as E:
+        loggerjava.error(loggerjava.exceptionhandler.handler(E))
+```
+#### Output：
+```commandline
+[20:39:00] [main/ERROR]: NameError: name 'b' is not defined
+    at <module> (<input>:7)
+    at test1 (<input>:4)
+```
 ### Versions
+
+`v0.8.0` added the exceptionhandler and clearcurrentlog function
 
 `v0.7.6` change filetype -> fileextension, simplified the code, completed the override funciton
 
