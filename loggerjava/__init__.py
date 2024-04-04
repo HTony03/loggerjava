@@ -3,14 +3,7 @@ import loggerjava
 import loggerjava.exceptionhandler
 
 if __name__ == '__main__':
-    def test1(a):
-        print(b)
 
-
-    try:
-        test1(1)
-    except Exception as e:
-        print(loggerjava.exceptionhandler.handler(e))
     pass
 
 ver = "v0.8.0.dev1"
