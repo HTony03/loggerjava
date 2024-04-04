@@ -75,7 +75,7 @@ def log(txt, type="i", pos="main", **overrides):
         f.close()
     if debugmodein:
         return _formats.format(timelog, pos, level, txt)
-    del detailtime, inconsole, debugmodein
+    del detailtime, inconsole, debugmodein, timelog, overridename, data
 
 
 def debug(txt, pos="main", **overrides):
@@ -203,7 +203,6 @@ def config(**kwargs):
                     tmpf = open(name + fileextension, mode="w", encoding=configname)
                 tmpf.close()
                 file_encoding = configname
-                del tmpf
                 if absolutepath:
                     f = open(route, mode="w", encoding=file_encoding)
                 else:
@@ -285,7 +284,7 @@ def exportconfig():
     export current config
     use loadconfig(config) to load this exported config
     returning as a lib
-    :return:
+    :return: a dictonary contains configs
     """
     i = {"name": name, "fileextension": fileextension, "absolutepath": absolutepath,
          "route": route, "showdetailedtime": showdetailedtime, "showinconsole": showinconsole,
@@ -296,7 +295,7 @@ def exportconfig():
 def loadconfig(inputconfig):
     """
     :param inputconfig: the config lib exported from exportconfig()
-    :return:
+    :return: nothing
     """
     global name, showdetailedtime, showinconsole, absolutepath, fileextension, file_encoding, route, fatalclose
 
@@ -317,7 +316,6 @@ def loadconfig(inputconfig):
             tmpf = open(name + fileextension, mode="w", encoding=inputconfig["file_encoding"])
         tmpf.close()
         file_encoding = inputconfig["file_encoding"]
-        del tmpf
     except LookupError:
         warn("wrong file encoding config.this config is set to default", pos="main_loggerjava", showinconsole=True)
         file_encoding = "utf-8"
