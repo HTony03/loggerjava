@@ -9,10 +9,10 @@ name = "log"
 absolutepath = False
 showdetailedtime = False
 showinconsole = True
-filetype = ".log"
+fileextension = ".log"
 file_encoding = "utf-8"
 route = r"log.log"
-debugin = False
+debugmode = False
 fatalclose = False
 
 
@@ -22,31 +22,52 @@ def log(txt, type="i", pos="main", **overrides):
         :param txt: the detail description of this log
         :param type: the type of the log,using:debug,info,warn,error,fatal
         :param pos: show where the log's actual called positon in the code
+        :param overrides: the overrides of the current config,only actives once
+        available overrides: showinconsole , showdetailedtime
         :return: log
         """
-    for configname, configdata in overrides.items():
+    detailtime = showdetailedtime
+    inconsole = showinconsole
+    debugmodein = debugmode
+    for overridename, data in overrides.items():
         pass
+        if overridename == "showdetailedtime":
+            if _formats.testformat(data,1):
+                detailtime = data
+            else:
+                log("wrong detailed time override. Set as False", type="W",pos="main_loggerjava",showinconsole=True)
+                detailtime = False
+        elif overridename == "showinconsole":
+            if _formats.testformat(data,1):
+                inconsole = data
+            else:
+                log("wrong show in console override. Set as True", type="W", pos="main_loggerjava", showinconsole=True)
+                inconsole = True
+        elif overridename == "debugmode":
+            if _formats.testformat(data,1):
+                debugmodein = data
+            else:
+                log("wrong debug override. Set as False", type="W", pos="main_loggerjava", showinconsole=True)
+                debugmodein = False
+
+
     level = _formats.typeformat(type)
     if absolutepath:
         f = open(route, mode="at+", encoding=file_encoding)
     else:
-        f = open(name + filetype, mode="at+", encoding=file_encoding)
-    if showdetailedtime and showinconsole:
-        # noinspection PyTypeChecker
-        f.write(_formats.format(time.asctime(), pos, level, txt))
-        print(_formats.format(time.asctime(), pos, level, txt))
-    elif not showdetailedtime and showinconsole:
-        f.write(_formats.format(_formats.time1(), pos, level, txt))
-        print(_formats.format(_formats.time1(), pos, level, txt))
-    elif showdetailedtime and not showinconsole:
-        f.write(_formats.format(time.asctime(), pos, level, txt))
+        f = open(name + fileextension, mode="at+", encoding=file_encoding)
+    if detailtime:
+        timelog = time.asctime()
     else:
-        f.write(_formats.format(_formats.time1(), pos, level, txt))
-    if debugin and not showdetailedtime:
-        return _formats.format(_formats.time1(), pos, level, txt)
-    elif debugin and showdetailedtime:
-        return _formats.format(time.asctime(), pos, level, txt)
-    f.close()
+        timelog = _formats.time1()
+    if inconsole:
+        print(_formats.format(timelog, pos, level, txt))
+    if not debugmodein:
+        f.write(_formats.format(timelog, pos, level, txt))
+        f.close()
+    if debugmodein:
+        return _formats.format(timelog, pos, level, txt)
+    del detailtime,inconsole,debugmodein
 
 
 def debug(txt, pos="main"):
@@ -55,7 +76,7 @@ def debug(txt, pos="main"):
         :param pos: show where the log's actual called positon in the code
         :return: debug log
         """
-    if debugin:
+    if debugmode:
         return log(txt, type='debug', pos=pos)
     else:
         log(txt, type='debug', pos=pos)
@@ -67,10 +88,10 @@ def info(txt, pos="main"):
         :param pos: show where the log's actual called positon in the code
         :return: info log
         """
-    if debugin:
+    if debugmode:
         return log(txt, type='INFO', pos=pos)
     else:
-        return log(txt, type='INFO', pos=pos)
+        log(txt, type='INFO', pos=pos)
 
 
 def warn(txt, pos="main"):
@@ -79,7 +100,7 @@ def warn(txt, pos="main"):
         :param pos: show where the log's actual called positon in the code
         :return: warning log
         """
-    if debugin:
+    if debugmode:
         return log(txt, type='WARN', pos=pos)
     else:
         log(txt, type='WARN', pos=pos)
@@ -91,7 +112,7 @@ def error(txt, pos="main"):
         :param pos: show where the log's actual called positon in the code
         :return: error log
         """
-    if debugin:
+    if debugmode:
         return log(txt, type='ERROR', pos=pos)
     else:
         log(txt, type='ERROR', pos=pos)
@@ -103,7 +124,7 @@ def fatal(txt, pos="main"):
     :param pos: show where the log's actual called positon in the code
     :return: fatal log
     """
-    if debugin:
+    if debugmode:
         return log(txt, type='FATAL', pos=pos)
     else:
         log(txt, type='FATAL', pos=pos)
@@ -120,13 +141,14 @@ def config(**kwargs):
 
     name : change the name of the log file, only actives when abolutepath config is off
 
-    filetype : change the file type of the log file, only actives when abolutepath config is off
+    fileextension : change the extension of the log file, only actives when abolutepath config is off
 
     absolutepath : change whether inputing the absolute path of the log file,
-    True for using the name and filetype to create file in the program running location
+    True for using the name and fileextension to create file in the program running location
     False for using the route to create file in the specific location(note:you need to enter the file format,like:test.log)
 
     route : change the file location, only activates when abolutepath config is on
+    the route should contain the
 
     file_encoding : change the file encoding method
 
@@ -136,19 +158,19 @@ def config(**kwargs):
 
     fatalexit : whether to exit the program after a fatal log
 
-    :return:
+    :return: none
     """
-    global showinconsole, showdetailedtime, absolutepath, name, filetype, file_encoding, route, debugin, fatalclose
+    global showinconsole, showdetailedtime, absolutepath, name, fileextension, file_encoding, route, debugmode, fatalclose
     for configname, configdata in kwargs.items():
 
         if configname == "name":
             name = configdata
-            f = open(name + filetype, mode="w", encoding=file_encoding)
+            f = open(name + fileextension, mode="w", encoding=file_encoding)
             f.close()
 
-        elif configname == "filetype":
-            filetype = configdata
-            f = open(name + filetype, mode="w", encoding=file_encoding)
+        elif configname == "fileextension":
+            fileextension = configdata
+            f = open(name + fileextension, mode="w", encoding=file_encoding)
             f.close()
 
         elif configname == "route":
@@ -161,14 +183,14 @@ def config(**kwargs):
                 if absolutepath:
                     tmpf = open(route, mode="w", encoding=configname)
                 else:
-                    tmpf = open(name + filetype, mode="w", encoding=configname)
+                    tmpf = open(name + fileextension, mode="w", encoding=configname)
                 tmpf.close()
                 file_encoding = configname
                 del tmpf
                 if absolutepath:
                     f = open(route, mode="w", encoding=file_encoding)
                 else:
-                    f = open(name + filetype, mode="w", encoding=file_encoding)
+                    f = open(name + fileextension, mode="w", encoding=file_encoding)
                 f.close()
             except LookupError:
                 warn("wrong file encoding config.this config is set to normal", pos="main_loggerjava")
@@ -198,7 +220,7 @@ def config(**kwargs):
                 if absolutepath:
                     f = open(route, mode="w", encoding=file_encoding)
                 else:
-                    f = open(name + filetype, mode="w", encoding=file_encoding)
+                    f = open(name + fileextension, mode="w", encoding=file_encoding)
                 f.close()
             else:
                 tmpin = showinconsole
@@ -206,17 +228,18 @@ def config(**kwargs):
                 warn("wrong absolute path config.this config is set to normal", pos="main_loggerjava")
                 showinconsole = tmpin
                 absolutepath = False
-                f = open(name + filetype, mode="w", encoding=file_encoding)
+                f = open(name + fileextension, mode="w", encoding=file_encoding)
                 f.close()
                 del tmpin
-        elif configname == "debuging":
-            debugin = configdata
+        elif configname == "debugmode":
+            debugmode = configdata
         elif configname == "fatalexit":
             if _formats.testformat(configdata, 1):
                 fatalclose = configdata
             else:
                 warn("wrong fatal exit config.this config is set to normal", pos="main_loggerjava")
                 fatalclose = False
+        #log("all given configs modified",type="D",pos="main_loggerjava.config",showinconsole=False)
 
 
 def version():
@@ -238,7 +261,7 @@ def exportconfig():
     returning as a lib
     :return:
     """
-    i = {"name": name, "filetype": filetype, "absolutepath": absolutepath,
+    i = {"name": name, "fileextension": fileextension, "absolutepath": absolutepath,
          "route": route, "showdetailedtime": showdetailedtime, "showinconsole": showinconsole,
          "file_encoding": file_encoding, "fatalexit": fatalclose}
     return i
@@ -249,7 +272,7 @@ def loadconfig(inputconfig):
     :param inputconfig: the config lib exported from exportconfig()
     :return:
     """
-    global name, showdetailedtime, showinconsole, absolutepath, filetype, file_encoding, route, fatalclose
+    global name, showdetailedtime, showinconsole, absolutepath, fileextension, file_encoding, route, fatalclose
 
     if _formats.testformat(inputconfig["absolutepath"], 1):
         absolutepath = inputconfig["absolutepath"]
@@ -262,14 +285,14 @@ def loadconfig(inputconfig):
         del tmpin
 
     name = inputconfig["name"]
-    filetype = inputconfig["filetype"]
+    fileextension = inputconfig["fileextension"]
     route = inputconfig["route"]
 
     try:
         if absolutepath:
             tmpf = open(route, mode="w", encoding=inputconfig["file_encoding"])
         else:
-            tmpf = open(name + filetype, mode="w", encoding=inputconfig["file_encoding"])
+            tmpf = open(name + fileextension, mode="w", encoding=inputconfig["file_encoding"])
         tmpf.close()
         file_encoding = inputconfig["file_encoding"]
         del tmpf
@@ -280,7 +303,7 @@ def loadconfig(inputconfig):
     if absolutepath:
         f = open(route, mode="at+", encoding=file_encoding)
     else:
-        f = open(name + filetype, mode="at+", encoding=file_encoding)
+        f = open(name + fileextension, mode="at+", encoding=file_encoding)
     f.close()
 
     if _formats.testformat(inputconfig["showdetailedtime"], 1):

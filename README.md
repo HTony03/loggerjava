@@ -8,6 +8,7 @@ import loggerjava
 logger = loggerjava
 logger.info("test")
 logger.warn("test",pos="insidecommand")
+logger.log("test",type="w",pos="main_test",showinconsole=False)
 ```
 
 ### Outputs
@@ -23,7 +24,7 @@ logger.warn("test",pos="insidecommand")
 - [ ] mutiple variable with different configs
 - [x] new config format
 - [ ] catch and format errors
-- [ ] override config once
+- [X] override config once
 
 
 ### Config
@@ -38,13 +39,14 @@ below are config_name and the description
 
 name : change the name of the log file, only actives when abolutepath config is off
 
-filetype : change the file type of the log file, only actives when abolutepath config is off
+fileextension : change the extension of the log file, only actives when abolutepath config is off
 
 absolutepath : change whether inputing the absolute path of the log file,
-True for using the name and filetype to create file in the program running location
+True for using the name and fileextension to create file in the program running location
 False for using the route to create file in the specific location(note:you need to enter the file format,like:test.log)
 
 route : change the file location, only activates when abolutepath config is on
+the route should contain the
 
 file_encoding : change the file encoding method
 
@@ -54,13 +56,15 @@ showinconsole : whether to show the log in the python console
 
 fatalexit : whether to exit the program after a fatal log
 
-:return:
+:return: none
 """
 ```
 using `logger.exportconfig()` to export your current config
 
 and using `logger.inportconfig(inputconfig)` to inport your config
 ### Versions
+
+`v0.7.6` change filetype -> fileextension, simplified the code, completed the override funciton
 
 `v0.7.5.dev1` follow SemVer, no actual updates
 

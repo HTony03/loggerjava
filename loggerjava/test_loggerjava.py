@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
 def testin():
     logger = lj
-    logger.config(debuging=True, showdetailedtime=False)
+    logger.config(debugmode=True, showdetailedtime=False)
     print("\n")
     assert logger.info("test1") == "[" + str(time.localtime().tm_hour).rjust(2, "0") + ":" + \
            str(time.localtime().tm_min).rjust(2, "0") + ":" + str(time.localtime().tm_sec).rjust(2,
@@ -41,6 +41,8 @@ def testin():
     assert logger.name == "test"
     logger.config(showdetailedtime=True)
     assert logger.info("test8") == "[" + time.asctime() + "] [main/INFO]: test8\n"
+    logger.config(showdetailedtime=False)
+    assert logger.log("testoverride",type="d",showdetailedtime=True) == "[" + time.asctime() + "] [main/debug]: testoverride\n"
 
 
 if __name__ == "__main__":
