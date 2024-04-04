@@ -67,10 +67,14 @@ def handler2(Exception):
     print(line)
 
 if __name__ == "__main__":
+    pass
+    #hmm wat?
+    """
     try:
         print(a)
     except Exception as e:
         print(handler(e))
+    """
 """
         exception_type_name = type(e).__name__
         # 将异常类型的名称转化为字符串（实际上已经是字符串了）
