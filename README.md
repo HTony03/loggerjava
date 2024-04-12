@@ -66,22 +66,38 @@ and using `logger.inportconfig(inputconfig)` to inport your config
 ### Exception handler
 using the `loggerjava.exceptionhandler.exception(exc)` function to process an Exception
 
+remember to register the defs/classes after you created them
+
 ```python
 import loggerjava
 import loggerjava.exceptionhandler
 def test1(a):
     print(b)
+class test2():
+    def printa(self):
+        print(self.b)
+loggerjava.exceptionhandler.register_def(test1)
+loggerjava.exceptionhandler.register_def(test2)
 if __name__ == "__main__":
     try:
         test1(1)
+    except Exception as E:
+        loggerjava.error(loggerjava.exceptionhandler.handler(E))
+    try:
+        a = test2
+        a.printa()
     except Exception as E:
         loggerjava.error(loggerjava.exceptionhandler.handler(E))
 ```
 #### Output：
 ```commandline
 [20:39:00] [main/ERROR]: NameError: name 'b' is not defined
-    at <module> (<input>:7)
-    at test1 (<input>:4)
+    at <module> (test.py:30)
+    at test1.test1 (test.py:21)
+
+[20:39:00] [main/ERROR]: AttributeError: 'test2' object has no attribute 'b'
+    at <module> (test.py:35)
+    at test2.printa (test.py:25)
 ```
 ### Versions
 

@@ -1,12 +1,12 @@
 import time
 import loggerjava
-import loggerjava.exceptionhandler
+from loggerjava.exceptionhandler import *
 
 if __name__ == '__main__':
 
     pass
 
-ver = "v0.8.0.dev1"
+ver = "v0.8.0"
 name = "log"
 absolutepath = False
 showdetailedtime = False
@@ -75,7 +75,7 @@ def log(txt, type="i", pos="main", **overrides):
         f.close()
     if debugmodein:
         return _formats.format(timelog, pos, level, txt)
-    del detailtime, inconsole, debugmodein, timelog, overridename, data
+    del detailtime, inconsole, debugmodein, timelog
 
 
 def debug(txt, pos="main", **overrides):

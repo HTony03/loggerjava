@@ -3,6 +3,8 @@ import loggerjava as lj
 # import pytest
 import time
 
+import loggerjava.exceptionhandler
+
 """
 class MyTestCase(unittest.TestCase):
     def test_something(self):
@@ -45,6 +47,16 @@ def testin():
     assert logger.log("testoverride", type="d",
                       showdetailedtime=True) == "[" + time.asctime() + "] [main/debug]: testoverride\n"
     assert logger.warn("testoverride", showdetailedtime=True) == "[" + time.asctime() + "] [main/WARN]: testoverride\n"
+    try:
+        def test1(a):
+            print(b)
+        test1(1)
+    except Exception as e:
+        a = loggerjava.exceptionhandler.handler(e)
+        assert a == "NameError: name 'b' is not defined\n    at testin (test_loggerjava.py:53)\n    at test1 (test_loggerjava.py:52)\n"
+        assert logger.warn(loggerjava.exceptionhandler.handler(e)) == "[" + str(time.localtime().tm_hour).rjust(2, "0") + ":" + \
+           str(time.localtime().tm_min).rjust(2, "0") + ":" + str(time.localtime().tm_sec).rjust(2,
+                                                                                                 "0") + "] [main/WARN]: %s\n"%a
 
 
 if __name__ == "__main__":
