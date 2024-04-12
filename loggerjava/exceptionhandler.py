@@ -73,21 +73,6 @@ def handler(exc):
     return formatted_exc
 
 
-
-
-class a():
-    def __init__(self):
-        self.a = 1
-
-    def p(self):
-        print(self.b)
-register_def(a)
 if __name__ == "__main__":
     pass
 
-    try:
-        sa = a()
-        sa.p()
-    except Exception as E:
-        print(handler4(E))
-            #hmm wat?
