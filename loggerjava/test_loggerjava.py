@@ -17,11 +17,11 @@ if __name__ == '__main__':
 """
 
 
-def test1():
+def _test1():
     raise UserWarning('testing warning')
 
 
-loggerjava.exceptionhandler.register_def(test1)
+loggerjava.exceptionhandler.register_def(_test1)
 
 
 def testin():
@@ -56,12 +56,12 @@ def testin():
     assert logger.warn("testoverride", showdetailedtime=True) == "[" + time.asctime() + "] [main/WARN]: testoverride\n"
     try:
 
-        test1()
+        _test1()
     except Exception as e:
         a = loggerjava.exceptionhandler.handler(e)
         assert a == 'UserWarning: testing warning\n' \
                     '    at testin (test_loggerjava.py:59)\n' \
-                    '    at test1.test1 (test_loggerjava.py:21)\n'
+                    '    at _test1._test1 (test_loggerjava.py:21)\n'
         assert logger.warn(loggerjava.exceptionhandler.handler(e)) == "[" + str(time.localtime().tm_hour).rjust(2,
                                                                                                                 "0") + ":" + \
                str(time.localtime().tm_min).rjust(2, "0") + ":" + str(time.localtime().tm_sec).rjust(2,
