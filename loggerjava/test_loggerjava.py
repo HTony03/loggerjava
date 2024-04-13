@@ -17,6 +17,13 @@ if __name__ == '__main__':
 """
 
 
+def test1():
+    raise UserWarning('testing warning')
+
+
+loggerjava.exceptionhandler.register_def(test1)
+
+
 def testin():
     logger = lj
     logger.config(debugmode=True, showdetailedtime=False)
@@ -40,7 +47,7 @@ def testin():
            str(time.localtime().tm_min).rjust(2, "0") + ":" + str(time.localtime().tm_sec).rjust(2,
                                                                                                  "0") + "] [testing/INFO]: test6\n"
     logger.config(name="test")
-    assert logger.name == "test"
+    assert logger._name == "test"
     logger.config(showdetailedtime=True)
     assert logger.info("test8") == "[" + time.asctime() + "] [main/INFO]: test8\n"
     logger.config(showdetailedtime=False)
@@ -48,13 +55,13 @@ def testin():
                       showdetailedtime=True) == "[" + time.asctime() + "] [main/debug]: testoverride\n"
     assert logger.warn("testoverride", showdetailedtime=True) == "[" + time.asctime() + "] [main/WARN]: testoverride\n"
     try:
-        def test1():
-            raise UserWarning('testing warning')
 
         test1()
     except Exception as e:
         a = loggerjava.exceptionhandler.handler(e)
-        assert a == "UserWarning: testing warning\n    at testin (test_loggerjava.py:53)\n    at test1 (test_loggerjava.py:52)\n"
+        assert a == 'UserWarning: testing warning\n' \
+                    '    at testin (test_loggerjava.py:57)\n' \
+                    '    at test1.test1 (test_loggerjava.py:21)\n'
         assert logger.warn(loggerjava.exceptionhandler.handler(e)) == "[" + str(time.localtime().tm_hour).rjust(2,
                                                                                                                 "0") + ":" + \
                str(time.localtime().tm_min).rjust(2, "0") + ":" + str(time.localtime().tm_sec).rjust(2,
