@@ -50,13 +50,15 @@ def testin():
     try:
         def test1():
             raise UserWarning('testing warning')
+
         test1()
     except Exception as e:
         a = loggerjava.exceptionhandler.handler(e)
         assert a == "UserWarning: testing warning\n    at testin (test_loggerjava.py:53)\n    at test1 (test_loggerjava.py:52)\n"
-        assert logger.warn(loggerjava.exceptionhandler.handler(e)) == "[" + str(time.localtime().tm_hour).rjust(2, "0") + ":" + \
-           str(time.localtime().tm_min).rjust(2, "0") + ":" + str(time.localtime().tm_sec).rjust(2,
-                                                                                                 "0") + "] [main/WARN]: %s\n"%a
+        assert logger.warn(loggerjava.exceptionhandler.handler(e)) == "[" + str(time.localtime().tm_hour).rjust(2,
+                                                                                                                "0") + ":" + \
+               str(time.localtime().tm_min).rjust(2, "0") + ":" + str(time.localtime().tm_sec).rjust(2,
+                                                                                                     "0") + "] [main/WARN]: %s\n" % a
 
 
 if __name__ == "__main__":

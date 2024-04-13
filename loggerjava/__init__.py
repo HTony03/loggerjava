@@ -7,15 +7,15 @@ if __name__ == '__main__':
     pass
 
 ver = "v0.8.0"
-name = "log"
-absolutepath = False
-showdetailedtime = False
-showinconsole = True
-fileextension = ".log"
-file_encoding = "utf-8"
-route = r"log.log"
-debugmode = False
-fatalclose = False
+_name = "log"
+_absolutepath = False
+_showdetailedtime = False
+_showinconsole = True
+_fileextension = ".log"
+_file_encoding = "utf-8"
+_route = r"log.log"
+_debugmode = False
+_fatalclose = False
 
 
 # noinspection PyTypeChecker
@@ -36,9 +36,9 @@ def log(txt, type="i", pos="main", **overrides):
         format: override_name = override_value
         :return: log
         """
-    detailtime = showdetailedtime
-    inconsole = showinconsole
-    debugmodein = debugmode
+    detailtime = _showdetailedtime
+    inconsole = _showinconsole
+    debugmodein = _debugmode
     for overridename, data in overrides.items():
         if overridename == "showdetailedtime":
             if _formats.testformat(data, 1):
@@ -60,10 +60,10 @@ def log(txt, type="i", pos="main", **overrides):
                 debugmodein = False
 
     level = _formats.typeformat(type)
-    if absolutepath:
-        f = open(route, mode="at+", encoding=file_encoding)
+    if _absolutepath:
+        f = open(_route, mode="at+", encoding=_file_encoding)
     else:
-        f = open(name + fileextension, mode="at+", encoding=file_encoding)
+        f = open(_name + _fileextension, mode="at+", encoding=_file_encoding)
     if detailtime:
         timelog = time.asctime()
     else:
@@ -86,7 +86,7 @@ def debug(txt, pos="main", **overrides):
         available overrides: showinconsole , showdetailedtime
         :return: debug log
         """
-    if debugmode:
+    if _debugmode:
         return log(txt, type='debug', pos=pos, **overrides)
     else:
         log(txt, type='debug', pos=pos, **overrides)
@@ -98,7 +98,7 @@ def info(txt, pos="main", **overrides):
         :param pos: show where the log's actual called positon in the code
         :return: info log
         """
-    if debugmode:
+    if _debugmode:
         return log(txt, type='INFO', pos=pos, **overrides)
     else:
         log(txt, type='INFO', pos=pos, **overrides)
@@ -112,7 +112,7 @@ def warn(txt, pos="main", **overrides):
         available overrides: showinconsole , showdetailedtime
         :return: warning log
         """
-    if debugmode:
+    if _debugmode:
         return log(txt, type='WARN', pos=pos, **overrides)
     else:
         log(txt, type='WARN', pos=pos, **overrides)
@@ -126,7 +126,7 @@ def error(txt, pos="main", **overrides):
         available overrides: showinconsole , showdetailedtime
         :return: error log
         """
-    if debugmode:
+    if _debugmode:
         return log(txt, type='ERROR', pos=pos, **overrides)
     else:
         log(txt, type='ERROR', pos=pos, **overrides)
@@ -140,11 +140,11 @@ def fatal(txt, pos="main", **overrides):
         available overrides: showinconsole , showdetailedtime
         :return: fatal log
     """
-    if debugmode:
+    if _debugmode:
         return log(txt, type='FATAL', pos=pos, **overrides)
     else:
         log(txt, type='FATAL', pos=pos, **overrides)
-    if fatalclose:
+    if _fatalclose:
         exit(10)
 
 
@@ -177,80 +177,80 @@ def config(**kwargs):
 
     :return: none
     """
-    global showinconsole, showdetailedtime, absolutepath, name, fileextension, file_encoding, route, debugmode, fatalclose
+    global _showinconsole, _showdetailedtime, _absolutepath, _name, _fileextension, _file_encoding, _route, _debugmode, _fatalclose
     for configname, configdata in kwargs.items():
 
         if configname == "name":
-            name = configdata
-            f = open(name + fileextension, mode="w", encoding=file_encoding)
+            _name = configdata
+            f = open(_name + _fileextension, mode="w", encoding=_file_encoding)
             f.close()
 
         elif configname == "fileextension":
-            fileextension = configdata
-            f = open(name + fileextension, mode="w", encoding=file_encoding)
+            _fileextension = configdata
+            f = open(_name + _fileextension, mode="w", encoding=_file_encoding)
             f.close()
 
         elif configname == "route":
-            route = configdata
-            f = open(route, mode="w", encoding=file_encoding)
+            _route = configdata
+            f = open(_route, mode="w", encoding=_file_encoding)
             f.close()
 
         elif configname == "file_encoding":
             try:
-                if absolutepath:
-                    tmpf = open(route, mode="w", encoding=configname)
+                if _absolutepath:
+                    tmpf = open(_route, mode="w", encoding=configname)
                 else:
-                    tmpf = open(name + fileextension, mode="w", encoding=configname)
+                    tmpf = open(_name + _fileextension, mode="w", encoding=configname)
                 tmpf.close()
-                file_encoding = configname
-                if absolutepath:
-                    f = open(route, mode="w", encoding=file_encoding)
+                _file_encoding = configname
+                if _absolutepath:
+                    f = open(_route, mode="w", encoding=_file_encoding)
                 else:
-                    f = open(name + fileextension, mode="w", encoding=file_encoding)
+                    f = open(_name + _fileextension, mode="w", encoding=_file_encoding)
                 f.close()
             except LookupError:
                 warn("wrong file encoding config.this config is set to default", pos="main_loggerjava",
                      showinconsole=True)
-                file_encoding = "utf-8"
+                _file_encoding = "utf-8"
 
         elif configname == "showdetailedtime":
             if _formats.testformat(configdata, 1):
-                showdetailedtime = configdata
+                _showdetailedtime = configdata
             else:
                 warn("wrong detailed time config.this config is set to default", pos="main_loggerjava",
                      showinconsole=True)
-                showdetailedtime = False
+                _showdetailedtime = False
 
         elif configname == "showinconsole":
             if _formats.testformat(configdata, 1):
-                showinconsole = configdata
+                _showinconsole = configdata
             else:
-                showinconsole = True
+                _showinconsole = True
                 warn("wrong show in console config.this config is set to default", pos="main_loggerjava",
                      showinconsole=True)
 
         elif configname == "absolutepath":
             if _formats.testformat(configdata, 1):
-                absolutepath = configdata
-                if absolutepath:
-                    f = open(route, mode="w", encoding=file_encoding)
+                _absolutepath = configdata
+                if _absolutepath:
+                    f = open(_route, mode="w", encoding=_file_encoding)
                 else:
-                    f = open(name + fileextension, mode="w", encoding=file_encoding)
+                    f = open(_name + _fileextension, mode="w", encoding=_file_encoding)
                 f.close()
             else:
                 warn("wrong absolute path config.this config is set to default", pos="main_loggerjava",
                      showinconsole=True)
-                absolutepath = False
-                f = open(name + fileextension, mode="w", encoding=file_encoding)
+                _absolutepath = False
+                f = open(_name + _fileextension, mode="w", encoding=_file_encoding)
                 f.close()
         elif configname == "debugmode":
-            debugmode = configdata
+            _debugmode = configdata
         elif configname == "fatalexit":
             if _formats.testformat(configdata, 1):
-                fatalclose = configdata
+                _fatalclose = configdata
             else:
                 warn("wrong fatal exit config.this config is set to default", pos="main_loggerjava", showinconsole=True)
-                fatalclose = False
+                _fatalclose = False
         # log("all given configs modified",type="D",pos="main_loggerjava.config",showinconsole=False)
 
 
@@ -259,10 +259,10 @@ def clearcurrentlog():
     clean the current log file
     :return: nothing
     """
-    if absolutepath:
-        f = open(route, mode="w", encoding=file_encoding)
+    if _absolutepath:
+        f = open(_route, mode="w", encoding=_file_encoding)
     else:
-        f = open(name + fileextension, mode="w", encoding=file_encoding)
+        f = open(_name + _fileextension, mode="w", encoding=_file_encoding)
     f.write("")
     f.close()
 
@@ -286,9 +286,9 @@ def exportconfig():
     returning as a lib
     :return: a dictonary contains configs
     """
-    i = {"name": name, "fileextension": fileextension, "absolutepath": absolutepath,
-         "route": route, "showdetailedtime": showdetailedtime, "showinconsole": showinconsole,
-         "file_encoding": file_encoding, "fatalexit": fatalclose}
+    i = {"_name": _name, "fileextension": _fileextension, "absolutepath": _absolutepath,
+         "route": _route, "showdetailedtime": _showdetailedtime, "showinconsole": _showinconsole,
+         "file_encoding": _file_encoding, "fatalexit": _fatalclose}
     return i
 
 
@@ -297,51 +297,51 @@ def loadconfig(inputconfig):
     :param inputconfig: the config lib exported from exportconfig()
     :return: nothing
     """
-    global name, showdetailedtime, showinconsole, absolutepath, fileextension, file_encoding, route, fatalclose
+    global _name, _showdetailedtime, _showinconsole, _absolutepath, _fileextension, _file_encoding, _route, _fatalclose
 
     if _formats.testformat(inputconfig["absolutepath"], 1):
-        absolutepath = inputconfig["absolutepath"]
+        _absolutepath = inputconfig["absolutepath"]
     else:
         warn("wrong absolute path config.this config is set to default", pos="main_loggerjava", showinconsole=True)
-        absolutepath = False
+        _absolutepath = False
 
-    name = inputconfig["name"]
-    fileextension = inputconfig["fileextension"]
-    route = inputconfig["route"]
+    _name = inputconfig["_name"]
+    _fileextension = inputconfig["fileextension"]
+    _route = inputconfig["route"]
 
     try:
-        if absolutepath:
-            tmpf = open(route, mode="w", encoding=inputconfig["file_encoding"])
+        if _absolutepath:
+            tmpf = open(_route, mode="w", encoding=inputconfig["file_encoding"])
         else:
-            tmpf = open(name + fileextension, mode="w", encoding=inputconfig["file_encoding"])
+            tmpf = open(_name + _fileextension, mode="w", encoding=inputconfig["file_encoding"])
         tmpf.close()
-        file_encoding = inputconfig["file_encoding"]
+        _file_encoding = inputconfig["file_encoding"]
     except LookupError:
         warn("wrong file encoding config.this config is set to default", pos="main_loggerjava", showinconsole=True)
-        file_encoding = "utf-8"
+        _file_encoding = "utf-8"
 
-    if absolutepath:
-        f = open(route, mode="at+", encoding=file_encoding)
+    if _absolutepath:
+        f = open(_route, mode="at+", encoding=_file_encoding)
     else:
-        f = open(name + fileextension, mode="at+", encoding=file_encoding)
+        f = open(_name + _fileextension, mode="at+", encoding=_file_encoding)
     f.close()
 
     if _formats.testformat(inputconfig["showdetailedtime"], 1):
-        showdetailedtime = inputconfig["showdetailedtime"]
+        _showdetailedtime = inputconfig["showdetailedtime"]
     else:
         warn("wrong detailed time config.this config is set to default", pos="main_loggerjava", showinconsole=True)
-        showdetailedtime = False
+        _showdetailedtime = False
 
     if _formats.testformat(inputconfig["showinconsole"], 1):
-        showinconsole = inputconfig["showinconsole"]
+        _showinconsole = inputconfig["showinconsole"]
     else:
-        showinconsole = True
+        _showinconsole = True
         warn("wrong show in console config.this config is set to default", pos="main_loggerjava", showinconsole=True)
 
     if _formats.testformat(inputconfig["fatalexit"], 1):
-        fatalclose = inputconfig["fatalexit"]
+        _fatalclose = inputconfig["fatalexit"]
     else:
-        fatalclose = False
+        _fatalclose = False
         warn("wrong fatal close config.this config is set to default", pos="main_loggerjava", showinconsole=True)
 
 

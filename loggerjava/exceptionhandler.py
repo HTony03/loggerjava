@@ -41,6 +41,7 @@ def query_def_ownership(def_name):
             return entry["name"]
     return None  # 如果没有找到，返回None
 
+
 def handler(exc):
     """
     the handler of the exceptions
@@ -60,12 +61,10 @@ def handler(exc):
         filename = os.path.basename(filename)
 
         cls = query_def_ownership(name)
-        #module_name = ""
-        #print(cls)
         if cls is None:
             formatted_frame = f"    at {name} ({filename}:{lineno})\n"
         else:
-            #formatted_frame = f"    at {module_name}.{cls}.{name} ({filename}:{lineno})\n"
+            # formatted_frame = f"    at {module_name}.{cls}.{name} ({filename}:{lineno})\n"
             formatted_frame = f"    at {cls}.{name} ({filename}:{lineno})\n"
 
         formatted_exc += formatted_frame
@@ -75,4 +74,3 @@ def handler(exc):
 
 if __name__ == "__main__":
     pass
-
