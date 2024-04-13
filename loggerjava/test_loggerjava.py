@@ -60,7 +60,7 @@ def testin():
     except Exception as e:
         a = loggerjava.exceptionhandler.handler(e)
         assert a == 'UserWarning: testing warning\n' \
-                    '    at testin (test_loggerjava.py:57)\n' \
+                    '    at testin (test_loggerjava.py:59)\n' \
                     '    at test1.test1 (test_loggerjava.py:21)\n'
         assert logger.warn(loggerjava.exceptionhandler.handler(e)) == "[" + str(time.localtime().tm_hour).rjust(2,
                                                                                                                 "0") + ":" + \
