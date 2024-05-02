@@ -12,7 +12,7 @@ logger.log("test",type="w",pos="main_test",showinconsole=False)
 ```
 
 ### Outputs
-```commandline
+```
 [20:39:00] [main/debug]: test
 [20:39:00] [main/info]: test
 [20:39:00] [main/WARNING]: test
@@ -21,7 +21,7 @@ logger.log("test",type="w",pos="main_test",showinconsole=False)
 ```
 
 ### Developing features
-- [ ] mutiple variable with different configs
+- [ ] multiple variable with different configs
 - [x] new config format
 - [ ] catch and format errors
 - [X] override config once
@@ -61,7 +61,7 @@ fatalexit : whether to exit the program after a fatal log
 ```
 using `logger.exportconfig()` to export your current config
 
-and using `logger.inportconfig(inputconfig)` to inport your config
+and using `logger.loadconfig(inputconfig)` to load your saved config
 
 ### Exception handler
 using the `loggerjava.exceptionhandler.exception(exc)` function to process an Exception
@@ -90,7 +90,7 @@ if __name__ == "__main__":
         loggerjava.error(loggerjava.exceptionhandler.handler(E))
 ```
 #### Output：
-```commandline
+```
 [20:39:00] [main/ERROR]: NameError: name 'b' is not defined
     at <module> (test.py:30)
     at test1.test1 (test.py:21)

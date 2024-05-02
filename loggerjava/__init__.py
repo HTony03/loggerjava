@@ -3,7 +3,6 @@ import loggerjava
 from loggerjava.exceptionhandler import *
 
 if __name__ == '__main__':
-
     pass
 
 ver = "v0.8.0"
@@ -177,7 +176,8 @@ def config(**kwargs):
 
     :return: none
     """
-    global _showinconsole, _showdetailedtime, _absolutepath, _name, _fileextension, _file_encoding, _route, _debugmode, _fatalclose
+    global _showinconsole, _showdetailedtime, _absolutepath, _name, _fileextension, _file_encoding, _route,\
+        _debugmode, _fatalclose
     for configname, configdata in kwargs.items():
 
         if configname == "name":
@@ -383,5 +383,6 @@ class _formats:
         return "[%s] [%s/%s]: %s\n" % (time1, place, level, txt)
 
     def time1():
-        return str(time.localtime().tm_hour).rjust(2, "0") + ":" + \
-            str(time.localtime().tm_min).rjust(2, "0") + ":" + str(time.localtime().tm_sec).rjust(2, "0")
+        return "%02d:%02d:%02d"%(time.localtime().tm_hour , time.localtime().tm_min , time.localtime().tm_sec)
+        # return str(time.localtime().tm_hour).rjust(2, "0") + ":" + \
+        #    str(time.localtime().tm_min).rjust(2, "0") + ":" + str(time.localtime().tm_sec).rjust(2, "0")

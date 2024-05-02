@@ -45,7 +45,7 @@ def query_def_ownership(def_name):
 def handler(exc):
     """
     the handler of the exceptions
-    :param exc: the catched Exception
+    :param exc: the caught Exception
     see README.md for the usage of it
     :return: none
     """
