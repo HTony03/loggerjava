@@ -1,6 +1,7 @@
 import time
 import loggerjava
 from loggerjava.exceptionhandler import *
+import loggerjava.test_loggerjava
 
 if __name__ == '__main__':
     pass
@@ -40,25 +41,25 @@ def log(txt, type="i", pos="main", **overrides):
     debugmodein = _debugmode
     for overridename, data in overrides.items():
         if overridename == "showdetailedtime":
-            if _formats.testformat(data, 1):
+            if __formats.testformat(data, 1):
                 detailtime = data
             else:
                 log("wrong detailed time override. Set as False", type="W", pos="main_loggerjava", showinconsole=True)
                 detailtime = False
         elif overridename == "showinconsole":
-            if _formats.testformat(data, 1):
+            if __formats.testformat(data, 1):
                 inconsole = data
             else:
                 log("wrong show in console override. Set as True", type="W", pos="main_loggerjava", showinconsole=True)
                 inconsole = True
         elif overridename == "debugmode":
-            if _formats.testformat(data, 1):
+            if __formats.testformat(data, 1):
                 debugmodein = data
             else:
                 log("wrong debug override. Set as False", type="W", pos="main_loggerjava", showinconsole=True)
                 debugmodein = False
 
-    level = _formats.typeformat(type)
+    level = __formats.typeformat(type)
     if _absolutepath:
         f = open(_route, mode="at+", encoding=_file_encoding)
     else:
@@ -66,14 +67,14 @@ def log(txt, type="i", pos="main", **overrides):
     if detailtime:
         timelog = time.asctime()
     else:
-        timelog = _formats.time1()
+        timelog = __formats.time1()
     if inconsole:
-        print(_formats.format(timelog, pos, level, txt))
+        print(__formats.format(timelog, pos, level, txt))
     if not debugmodein:
-        f.write(_formats.format(timelog, pos, level, txt))
+        f.write(__formats.format(timelog, pos, level, txt))
         f.close()
     if debugmodein:
-        return _formats.format(timelog, pos, level, txt)
+        return __formats.format(timelog, pos, level, txt)
     del detailtime, inconsole, debugmodein, timelog
 
 
@@ -176,7 +177,7 @@ def config(**kwargs):
 
     :return: none
     """
-    global _showinconsole, _showdetailedtime, _absolutepath, _name, _fileextension, _file_encoding, _route,\
+    global _showinconsole, _showdetailedtime, _absolutepath, _name, _fileextension, _file_encoding, _route, \
         _debugmode, _fatalclose
     for configname, configdata in kwargs.items():
 
@@ -214,7 +215,7 @@ def config(**kwargs):
                 _file_encoding = "utf-8"
 
         elif configname == "showdetailedtime":
-            if _formats.testformat(configdata, 1):
+            if __formats.testformat(configdata, 1):
                 _showdetailedtime = configdata
             else:
                 warn("wrong detailed time config.this config is set to default", pos="main_loggerjava",
@@ -222,7 +223,7 @@ def config(**kwargs):
                 _showdetailedtime = False
 
         elif configname == "showinconsole":
-            if _formats.testformat(configdata, 1):
+            if __formats.testformat(configdata, 1):
                 _showinconsole = configdata
             else:
                 _showinconsole = True
@@ -230,7 +231,7 @@ def config(**kwargs):
                      showinconsole=True)
 
         elif configname == "absolutepath":
-            if _formats.testformat(configdata, 1):
+            if __formats.testformat(configdata, 1):
                 _absolutepath = configdata
                 if _absolutepath:
                     f = open(_route, mode="w", encoding=_file_encoding)
@@ -246,7 +247,7 @@ def config(**kwargs):
         elif configname == "debugmode":
             _debugmode = configdata
         elif configname == "fatalexit":
-            if _formats.testformat(configdata, 1):
+            if __formats.testformat(configdata, 1):
                 _fatalclose = configdata
             else:
                 warn("wrong fatal exit config.this config is set to default", pos="main_loggerjava", showinconsole=True)
@@ -299,7 +300,7 @@ def loadconfig(inputconfig):
     """
     global _name, _showdetailedtime, _showinconsole, _absolutepath, _fileextension, _file_encoding, _route, _fatalclose
 
-    if _formats.testformat(inputconfig["absolutepath"], 1):
+    if __formats.testformat(inputconfig["absolutepath"], 1):
         _absolutepath = inputconfig["absolutepath"]
     else:
         warn("wrong absolute path config.this config is set to default", pos="main_loggerjava", showinconsole=True)
@@ -326,19 +327,19 @@ def loadconfig(inputconfig):
         f = open(_name + _fileextension, mode="at+", encoding=_file_encoding)
     f.close()
 
-    if _formats.testformat(inputconfig["showdetailedtime"], 1):
+    if __formats.testformat(inputconfig["showdetailedtime"], 1):
         _showdetailedtime = inputconfig["showdetailedtime"]
     else:
         warn("wrong detailed time config.this config is set to default", pos="main_loggerjava", showinconsole=True)
         _showdetailedtime = False
 
-    if _formats.testformat(inputconfig["showinconsole"], 1):
+    if __formats.testformat(inputconfig["showinconsole"], 1):
         _showinconsole = inputconfig["showinconsole"]
     else:
         _showinconsole = True
         warn("wrong show in console config.this config is set to default", pos="main_loggerjava", showinconsole=True)
 
-    if _formats.testformat(inputconfig["fatalexit"], 1):
+    if __formats.testformat(inputconfig["fatalexit"], 1):
         _fatalclose = inputconfig["fatalexit"]
     else:
         _fatalclose = False
@@ -348,7 +349,7 @@ def loadconfig(inputconfig):
 # noinspection PyMethodParameters
 
 
-class _formats:
+class __formats:
     def typeformat(type):
         debugformat = ["D", "d", "debug"]
         infoformat = ["I", "i", "INFO", "info"]
@@ -383,6 +384,6 @@ class _formats:
         return "[%s] [%s/%s]: %s\n" % (time1, place, level, txt)
 
     def time1():
-        return "%02d:%02d:%02d"%(time.localtime().tm_hour , time.localtime().tm_min , time.localtime().tm_sec)
+        return "%02d:%02d:%02d" % (time.localtime().tm_hour, time.localtime().tm_min, time.localtime().tm_sec)
         # return str(time.localtime().tm_hour).rjust(2, "0") + ":" + \
         #    str(time.localtime().tm_min).rjust(2, "0") + ":" + str(time.localtime().tm_sec).rjust(2, "0")
