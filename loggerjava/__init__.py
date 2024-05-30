@@ -1,9 +1,8 @@
 import time
-import loggerjava
-import loggerjava.exceptionhandler
-import loggerjava.test_loggerjava
+from loggerjava.exceptionhandler import *
+from  loggerjava.test_loggerjava import *
 #import loggerjava.debugs
-from loggerjava.exceptionhandler import _database
+#from loggerjava.exceptionhandler import _database
 
 if __name__ == '__main__':
     pass
@@ -279,7 +278,7 @@ def version():
 
 
 def test():
-    loggerjava.test_loggerjava.testin()
+    test_loggerjava.testin()
 
 
 def exportconfig():
@@ -354,7 +353,7 @@ function : %s
 ownership : %s
 args : %s
 kwargs : %s
-        """ % (f, exceptionhandler.query_def_ownership(f),args, kwargs))
+        """ % (f.__name__, exceptionhandler.query_def_ownership(f.__name__),args, kwargs))
 
     def pre_log(f):
         def wrapper(*args, **kwargs):

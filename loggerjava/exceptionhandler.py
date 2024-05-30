@@ -3,11 +3,14 @@ import traceback
 import inspect
 import os
 
+
+
 # 模块级别的变量，用于存储注册的类和函数信息
 _database = []
 
 
 def register_def(item):
+    import loggerjava
     """
     register the classes/defs to the exceptionhander module
     :param item: the class/def you created

@@ -42,15 +42,23 @@ def debugging1(when):
 def test(arg,**kwargs):
     print(arg + " test")
 
-@debugging("pre")
+#@debugging("pre")
 class testss():
+    @debugging("pre")
     def p(self,*arg,**kwargs):print(arg)
+
+    def te(self):
+        print(testa)
 
 
 if __name__ == "__main__":
     pass
-loggerjava.exceptionhandler.register_def(test)
+#loggerjava.exceptionhandler.register_def(test)
 loggerjava.exceptionhandler.register_def(testss)
 test("test",test=True)
 a = testss()
-a.p("testt")
+a.p("testt",test=True)
+try:
+    a.te()
+except Exception as E:
+    print(loggerjava.exceptionhandler.handler(E))
