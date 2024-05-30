@@ -1,12 +1,14 @@
 import time
 import loggerjava
-from loggerjava.exceptionhandler import *
+import loggerjava.exceptionhandler
 import loggerjava.test_loggerjava
+#import loggerjava.debugs
+from loggerjava.exceptionhandler import _database
 
 if __name__ == '__main__':
     pass
 
-ver = "v0.8.0"
+ver = "v0.8.1"
 _name = "log"
 _absolutepath = False
 _showdetailedtime = False
@@ -345,6 +347,37 @@ def loadconfig(inputconfig):
         _fatalclose = False
         warn("wrong fatal close config.this config is set to default", pos="main_loggerjava", showinconsole=True)
 
+def debugging(when):
+    def log(f, *args, **kwargs):
+        debug("""func called:
+function : %s
+ownership : %s
+args : %s
+kwargs : %s
+        """ % (f, exceptionhandler.query_def_ownership(f),args, kwargs))
+
+    def pre_log(f):
+        def wrapper(*args, **kwargs):
+            log(f, *args, **kwargs)
+            return f(*args, **kwargs)
+
+        return wrapper
+
+    def post_log(f):
+        def wrapper(*args, **kwatgs):
+            now = time.time()
+            try:
+                return f(*args, **kwatgs)
+            finally:
+                log(f, *args, **kwatgs)
+                debug("time dela : " + (time.time() - int(now)))
+
+        return wrapper
+
+    try:
+        return {"pre": pre_log, "post": post_log}[when]
+    except KeyError:
+        raise ValueError
 
 # noinspection PyMethodParameters
 
