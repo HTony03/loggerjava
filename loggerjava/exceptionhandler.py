@@ -1,13 +1,14 @@
-import traceback
 import inspect
 import os
+import traceback
+
+import loggerjava
 
 # 模块级别的变量，用于存储注册的类和函数信息
 _database = []
 
 
 def register_def(item):
-    import loggerjava
     """
     register the classes/defs to the exceptionhander module
     :param item: the class/def you created
@@ -70,6 +71,19 @@ def handler(exc):
         formatted_exc += formatted_frame
 
     return formatted_exc
+
+
+def format_and_output_exception(exception, level="ERROR", **kwargs):
+    """
+    Directly format and output the exception
+    :param exception: the caught exception
+    :param level: the level of the log, acceptable levels are listed in log()
+    :param kwargs: the overrides of the current config, only actives once
+    available overrides: showinconsole , showdetailedtime
+    format: override_name = override_value
+    :return: formatted exception log
+    """
+    loggerjava.log(loggerjava.exceptionhandler.handler(exception), level=level, **kwargs)
 
 
 if __name__ == "__main__":

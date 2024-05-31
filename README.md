@@ -3,12 +3,14 @@
 ---
 an easy logger outputs like java logs
 ### How to use
+
 ```python
 import loggerjava
+
 logger = loggerjava
 logger.info("test")
-logger.warn("test",pos="insidecommand")
-logger.log("test",type="w",pos="main_test",showinconsole=False)
+logger.warn("test", pos="insidecommand")
+logger.log("test", level="w", pos="main_test", showinconsole=False)
 ```
 
 ### Outputs
@@ -22,8 +24,8 @@ logger.log("test",type="w",pos="main_test",showinconsole=False)
 
 ### Developing features
 - [ ] multiple variable with different configs
-- [x] new config format
 - [ ] catch and format errors
+- [x] new config format
 - [X] override config once
 
 

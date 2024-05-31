@@ -1,10 +1,7 @@
-import time
 from loggerjava.exceptionhandler import *
 from loggerjava.test_loggerjava import *
 
-
-if __name__ == '__main__':
-    pass
+if __name__ == '__main__':pass
 
 ver = "v0.8.1"
 _name = "log"
@@ -19,19 +16,19 @@ _fatalclose = False
 
 
 # noinspection PyTypeChecker
-def log(txt, type="i", pos="main", **overrides):
+def log(txt, level="i", pos="main", **overrides):
     """
         :param txt: the detail description of this log
-        :param type: the type of the log,using:debug,info,warn,error,fatal
-        accept types:
+        :param level: the level of the log,using: debug, info, warn, error, fatal
+        accept levels:
         debug: "D", "d", "debug"
-        info: "I", "i", "INFO", "info"
-        warn:"W", "w", "WARN", "warn"
-        error:"E", "e", "ERROR", "error"
-        fatal:"F", "f", "FATAL", "fatal"
+        info: "I", "i", "INFO", "info", "Info"
+        warn:"W", "w", "WARN", "warn", "Warn"
+        error:"E", "e", "ERROR", "error", "Error"
+        fatal:"F", "f", "FATAL", "fatal", "Fatal"
 
         :param pos: show where the log's actual called positon in the code
-        :param overrides: the overrides of the current config,only actives once
+        :param overrides: the overrides of the current config, only actives once
         available overrides: showinconsole , showdetailedtime
         format: override_name = override_value
         :return: log
@@ -44,22 +41,22 @@ def log(txt, type="i", pos="main", **overrides):
             if __formats.testformat(data, 1):
                 detailtime = data
             else:
-                log("wrong detailed time override. Set as False", type="W", pos="main_loggerjava", showinconsole=True)
+                log("wrong detailed time override. Set as False", level="W", pos="main_loggerjava", showinconsole=True)
                 detailtime = False
         elif overridename == "showinconsole":
             if __formats.testformat(data, 1):
                 inconsole = data
             else:
-                log("wrong show in console override. Set as True", type="W", pos="main_loggerjava", showinconsole=True)
+                log("wrong show in console override. Set as True", level="W", pos="main_loggerjava", showinconsole=True)
                 inconsole = True
         elif overridename == "debugmode":
             if __formats.testformat(data, 1):
                 debugmodein = data
             else:
-                log("wrong debug override. Set as False", type="W", pos="main_loggerjava", showinconsole=True)
+                log("wrong debug override. Set as False", level="W", pos="main_loggerjava", showinconsole=True)
                 debugmodein = False
 
-    level = __formats.typeformat(type)
+    level = __formats.levelformat(level)
     if _absolutepath:
         f = open(_route, mode="at+", encoding=_file_encoding)
     else:
@@ -87,9 +84,9 @@ def debug(txt, pos="main", **overrides):
         :return: debug log
         """
     if _debugmode:
-        return log(txt, type='debug', pos=pos, **overrides)
+        return log(txt, level='debug', pos=pos, **overrides)
     else:
-        log(txt, type='debug', pos=pos, **overrides)
+        log(txt, level='debug', pos=pos, **overrides)
 
 
 def info(txt, pos="main", **overrides):
@@ -99,9 +96,9 @@ def info(txt, pos="main", **overrides):
         :return: info log
         """
     if _debugmode:
-        return log(txt, type='INFO', pos=pos, **overrides)
+        return log(txt, level='INFO', pos=pos, **overrides)
     else:
-        log(txt, type='INFO', pos=pos, **overrides)
+        log(txt, level='INFO', pos=pos, **overrides)
 
 
 def warn(txt, pos="main", **overrides):
@@ -113,9 +110,9 @@ def warn(txt, pos="main", **overrides):
         :return: warning log
         """
     if _debugmode:
-        return log(txt, type='WARN', pos=pos, **overrides)
+        return log(txt, level='WARN', pos=pos, **overrides)
     else:
-        log(txt, type='WARN', pos=pos, **overrides)
+        log(txt, level='WARN', pos=pos, **overrides)
 
 
 def error(txt, pos="main", **overrides):
@@ -127,9 +124,9 @@ def error(txt, pos="main", **overrides):
         :return: error log
         """
     if _debugmode:
-        return log(txt, type='ERROR', pos=pos, **overrides)
+        return log(txt, level='ERROR', pos=pos, **overrides)
     else:
-        log(txt, type='ERROR', pos=pos, **overrides)
+        log(txt, level='ERROR', pos=pos, **overrides)
 
 
 def fatal(txt, pos="main", **overrides):
@@ -141,9 +138,9 @@ def fatal(txt, pos="main", **overrides):
         :return: fatal log
     """
     if _debugmode:
-        return log(txt, type='FATAL', pos=pos, **overrides)
+        return log(txt, level='FATAL', pos=pos, **overrides)
     else:
-        log(txt, type='FATAL', pos=pos, **overrides)
+        log(txt, level='FATAL', pos=pos, **overrides)
     if _fatalclose:
         exit(10)
 
@@ -252,7 +249,7 @@ def config(**kwargs):
             else:
                 warn("wrong fatal exit config.this config is set to default", pos="main_loggerjava", showinconsole=True)
                 _fatalclose = False
-        # log("all given configs modified",type="D",pos="main_loggerjava.config",showinconsole=False)
+        # log("all given configs modified",level="D",pos="main_loggerjava.config",showinconsole=False)
 
 
 def clearcurrentlog():
@@ -384,22 +381,22 @@ kwargs : %s
 
 
 class __formats:
-    def typeformat(type):
+    def levelformat(level):
         debugformat = ["D", "d", "debug"]
-        infoformat = ["I", "i", "INFO", "info"]
-        warnformat = ["W", "w", "WARN", "warn"]
-        errorformat = ["E", "e", "ERROR", "error"]
-        fatalformat = ["F", "f", "FATAL", "fatal"]
+        infoformat = ["I", "i", "INFO", "info", "Info"]
+        warnformat = ["W", "w", "WARN", "warn", "Warn"]
+        errorformat = ["E", "e", "ERROR", "error", "Error"]
+        fatalformat = ["F", "f", "FATAL", "fatal", "Fatal"]
 
-        if type in debugformat:
+        if level in debugformat:
             return "debug"
-        elif type in infoformat:
+        elif level in infoformat:
             return "INFO"
-        elif type in warnformat:
+        elif level in warnformat:
             return "WARN"
-        elif type in errorformat:
+        elif level in errorformat:
             return "ERROR"
-        elif type in fatalformat:
+        elif level in fatalformat:
             return "FATAL"
         else:
             warn("unknown given format", pos="main_loggerjava", showinconsole=True)
