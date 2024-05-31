@@ -3,17 +3,6 @@ import time
 
 import loggerjava.exceptionhandler
 
-"""
-class MyTestCase(unittest.TestCase):
-    def test_something(self):
-        self.assertEqual(True, False)  # add assertion here
-        """
-
-"""
-if __name__ == '__main__':
-    unittest.main()
-"""
-
 
 def _test1():
     raise UserWarning('testing warning')
@@ -32,8 +21,8 @@ def testin():
     except Exception as e:
         a = loggerjava.exceptionhandler.handler(e)
         assert a == 'UserWarning: testing warning\n' \
-                    '    at testin (test_loggerjava.py:33)\n' \
-                    '    at _test1._test1 (test_loggerjava.py:21)\n'
+                    '    at testin (test_loggerjava.py:20)\n' \
+                    '    at _test1._test1 (test_loggerjava.py:8)\n'
         assert logger.warn(loggerjava.exceptionhandler.handler(e)) == \
                "[%02d:%02d:%02d]" % (time.localtime().tm_hour, time.localtime().tm_min, time.localtime().tm_sec) + \
                " [main/WARN]: %s\n" % a
