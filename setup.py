@@ -9,7 +9,6 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     long_description = "\n" + fh.read()
 
-
 VERSION = loggerjava.ver
 DESCRIPTION = 'an easy logger outputs like java logs '
 LONG_DESCRIPTION = 'an easy logger outputs like java logs '
@@ -25,7 +24,7 @@ setup(
     long_description=long_description,
     packages=find_packages(),
     install_requires=[],
-    keywords=["python" , "logger" , "java_like"],
+    keywords=["python", "logger", "java_like"],
     classifiers=[
         "Development Status :: 1 - Planning",
         "Intended Audience :: Developers",

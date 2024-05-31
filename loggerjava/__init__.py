@@ -1,8 +1,7 @@
 import time
 from loggerjava.exceptionhandler import *
-from  loggerjava.test_loggerjava import *
-#import loggerjava.debugs
-#from loggerjava.exceptionhandler import _database
+from loggerjava.test_loggerjava import *
+
 
 if __name__ == '__main__':
     pass
@@ -346,6 +345,7 @@ def loadconfig(inputconfig):
         _fatalclose = False
         warn("wrong fatal close config.this config is set to default", pos="main_loggerjava", showinconsole=True)
 
+
 def debugging(when):
     def log(f, *args, **kwargs):
         debug("""
@@ -354,7 +354,7 @@ function : %s
 ownership : %s
 args : %s
 kwargs : %s
-""" % (f.__name__, exceptionhandler.query_def_ownership(f.__name__),args, kwargs))
+""" % (f.__name__, exceptionhandler.query_def_ownership(f.__name__), args, kwargs))
 
     def pre_log(f):
         def wrapper(*args, **kwargs):
@@ -378,6 +378,7 @@ kwargs : %s
         return {"pre": pre_log, "post": post_log}[when]
     except KeyError:
         raise ValueError
+
 
 # noinspection PyMethodParameters
 
