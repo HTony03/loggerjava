@@ -348,12 +348,13 @@ def loadconfig(inputconfig):
 
 def debugging(when):
     def log(f, *args, **kwargs):
-        debug("""func called:
+        debug("""
+func called:
 function : %s
 ownership : %s
 args : %s
 kwargs : %s
-        """ % (f.__name__, exceptionhandler.query_def_ownership(f.__name__),args, kwargs))
+""" % (f.__name__, exceptionhandler.query_def_ownership(f.__name__),args, kwargs))
 
     def pre_log(f):
         def wrapper(*args, **kwargs):
@@ -369,7 +370,7 @@ kwargs : %s
                 return f(*args, **kwatgs)
             finally:
                 log(f, *args, **kwatgs)
-                debug("time dela : " + (time.time() - int(now)))
+                debug("time dela : " + str(time.time() - now))
 
         return wrapper
 
