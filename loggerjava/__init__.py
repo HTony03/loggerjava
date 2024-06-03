@@ -15,6 +15,18 @@ _debugmode = False
 _fatalclose = False
 
 
+class testm:
+    def __init__(self):
+        self._testval = {"test":True}
+
+    def change(self,val):
+        self._testval["test"] = val
+
+    def out(self):
+        print(self._testval)
+
+
+
 # noinspection PyTypeChecker
 def log(txt, level="i", pos="main", **overrides):
     """
