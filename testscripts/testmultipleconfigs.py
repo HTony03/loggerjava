@@ -1,8 +1,8 @@
 import loggerjava
 if __name__ == "__main__":pass
 
-a = loggerjava.testm()
-b = loggerjava.testm()
-a.change(False)
-a.out()
-b.out()
+loggerjava.config(debuginanotherfile = True)
+loggerjava.clearcurrentlog()
+loggerjava.info('test')
+loggerjava.warn('test',pos='test?')
+loggerjava.debug('test!')
