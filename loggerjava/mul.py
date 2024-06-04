@@ -3,7 +3,10 @@ if __name__ == '__main__':
 
 import time
 import test_loggerjava
+import os.path
 
+
+# noinspection PyUnresolvedReferences,PyIncorrectDocstring
 class log:
     def __init__(self):
         self._name = "log"
@@ -14,7 +17,7 @@ class log:
         self._file_encoding = "utf-8"
         self._route = r"log.log"
         self._debugmode = False
-        self._fatalclose = False
+        self._fatalexit = False
         self._debuginanotherfile = False
         self._debugfilename = "_debug"
 
@@ -58,6 +61,7 @@ class log:
 
     def log(self, params):
         """
+            :param params: a dict contains:
             :param txt: the detail description of this log
             :param level: the level of the log,using: debug, info, warn, error, fatal
             accept levels:
@@ -71,6 +75,10 @@ class log:
             :param overrides: the overrides of the current config, only actives once
             available overrides: showinconsole , showdetailedtime
             format: override_name = override_value
+            :type params: dict
+            :type txt: str
+            :type level: str
+            :type pos: str, default: 'main'
             :return: log
             """
 
@@ -103,7 +111,7 @@ class log:
                     debugmodein = False
         # log cfg
         level = self.levelformat(params['level'])
-        if 'pos' not in params.items():
+        if 'pos' not in params:
             pos = "main"
         else:
             pos = params['pos']
@@ -112,7 +120,9 @@ class log:
         if self._absolutepath:
             f = open(self._route, mode="at+", encoding=self._file_encoding)
             if self._debuginanotherfile:
-                f_debug = open(self._route + self._debugfilename, mode='at+', encoding=self._file_encoding)
+                f_debug = open(
+                    os.path.splitext(self._route)[0] + self._debugfilename + os.path.splitext(self._route)[1],
+                    mode='at+', encoding=self._file_encoding)
         else:
             f = open(self._name + self._fileextension, mode="at+", encoding=self._file_encoding)
             if self._debuginanotherfile:
@@ -143,10 +153,14 @@ class log:
 
     def debug(self, params):
         """
+            :param params: a dict contains:
             :param txt: the detail description of this log
             :param pos: show where the log's actual called positon in the code
             :param overrides: the overrides of the current config,only actives once
             available overrides: showinconsole , showdetailedtime
+            :type params: dict
+            :type txt: str
+            :type pos: str, default:'main'
             :return: debug log
             """
         params['level'] = 'debug'
@@ -157,8 +171,12 @@ class log:
 
     def info(self, params):
         """
+            :param params: a dict contains:
             :param txt: the detail description of this log
             :param pos: show where the log's actual called positon in the code
+            :type params: dict
+            :type txt: str
+            :type pos: str, default:'main'
             :return: info log
             """
         params['level'] = 'INFO'
@@ -169,10 +187,14 @@ class log:
 
     def warn(self, params):
         """
+            :param params: a dict contains:
             :param txt: the detail description of this log
             :param pos: show where the log's actual called positon in the code
             :param overrides: the overrides of the current config,only actives once
             available overrides: showinconsole , showdetailedtime
+            :type params: dict
+            :type txt: str
+            :type pos: str, default:'main'
             :return: warning log
             """
         params['level'] = 'WARN'
@@ -183,10 +205,14 @@ class log:
 
     def error(self, params):
         """
+            :param params: a dict contains:
             :param txt: the detail description of this log
             :param pos: show where the log's actual called positon in the code
             :param overrides: the overrides of the current config,only actives once
             available overrides: showinconsole , showdetailedtime
+            :type params: dict
+            :type txt: str
+            :type pos: str, default:'main'
             :return: error log
             """
         params['level'] = 'ERROR'
@@ -197,10 +223,14 @@ class log:
 
     def fatal(self, params):
         """
+            :param params: a dict contains:
             :param txt: the detail description of this log
             :param pos: show where the log's actual called positon in the code
             :param overrides: the overrides of the current config,only actives once
             available overrides: showinconsole , showdetailedtime
+            :type params: dict
+            :type txt: str
+            :type pos: str, default:'main'
             :return: fatal log
         """
         params['level'] = 'FATAL'
@@ -208,38 +238,53 @@ class log:
             return self.log(params)
         else:
             self.log(params)
-        if self._fatalclose:
+        if self._fatalexit:
             exit(10)
-
 
     def config(self, **kwargs):
         """
         :param kwargs:input config names and config data
         format: config_name = config_data
-
+        :type kwargs: dict
         below are config_name and the description
 
         name : change the name of the log file, only actives when abolutepath config is off
+        :type name: str, default 'log'
 
         fileextension : change the extension of the log file, only actives when abolutepath config is off
+        :type fileextension: str, default '.log'
 
         absolutepath : change whether inputing the absolute path of the log file,
         True for using the name and fileextension to create file in the program running location
         False for using the route to create file in the specific location
         (note:the route should contain the extension of the file,like:D:\test.log)
+        :type absolutepath: bool, default False
 
         route : change the file location, only activates when abolutepath config is on
         the route should contain the extension of the file
+        :type route: str, default 'log.log'
 
         file_encoding : change the file encoding method
+        :type file_encoding: encoding str, default 'utf-8'
 
         showdetailedtime : whether to show detailed time in the log file
+        :type showdetailedtime: bool, default False
 
         showinconsole : whether to show the log in the python console
+        :type showinconsole: bool, default True
 
         fatalexit : whether to exit the program after a fatal log
+        :type fatalexit: bool, default False
 
-        :return: none
+        debuginanotherfile: whether to save debug logs in another file
+        True: saving in <filename><debugfilename><fileextension>
+        False:saving in <filename><fileextension>
+        :type debuginanotherfile: bool, default False
+
+        debugfilename: the <debugfilename> part above
+        :type debugfilename: str, default '_debug'
+
+        :return: complete config changing debug log
         """
         for configname, configdata in kwargs.items():
 
@@ -247,6 +292,9 @@ class log:
                 self._name = configdata
                 f = open(self._name + self._fileextension, mode="w", encoding=self._file_encoding)
                 f.close()
+
+            if configname == 'debugfilename':
+                self._debugfilename = configname
 
             elif configname == "fileextension":
                 self._fileextension = configdata
@@ -267,16 +315,18 @@ class log:
                     tmpf.close()
                     self._file_encoding = configname
                 except LookupError:
-                    self.warn({'txt':"wrong file encoding config.this config is set to default", 'pos':"main_loggerjava",
-                         'showinconsole':True})
+                    self.warn(
+                        {'txt': "wrong file encoding config.this config is set to default", 'pos': "main_loggerjava",
+                         'showinconsole': True})
                     self._file_encoding = "utf-8"
 
             elif configname == "showdetailedtime":
                 if self.testformat(configdata, 1):
                     self._showdetailedtime = configdata
                 else:
-                    self.warn({'txt':"wrong detailed time config.this config is set to default", 'pos':"main_loggerjava",
-                         'showinconsole':True})
+                    self.warn(
+                        {'txt': "wrong detailed time config.this config is set to default", 'pos': "main_loggerjava",
+                         'showinconsole': True})
                     self._showdetailedtime = False
 
             elif configname == "showinconsole":
@@ -284,7 +334,8 @@ class log:
                     self._showinconsole = configdata
                 else:
                     self._showinconsole = True
-                    self.warn({'txt':"wrong show in console config.this config is set to default", 'pos':"main_loggerjava"})
+                    self.warn(
+                        {'txt': "wrong show in console config.this config is set to default", 'pos': "main_loggerjava"})
 
             elif configname == "absolutepath":
                 if self.testformat(configdata, 1):
@@ -295,21 +346,33 @@ class log:
                         f = open(self._name + self._fileextension, mode="w", encoding=self._file_encoding)
                     f.close()
                 else:
-                    self.warn({'txt':"wrong absolute path config.this config is set to default", 'pos':"main_loggerjava",
-                         'showinconsole':True})
+                    self.warn(
+                        {'txt': "wrong absolute path config.this config is set to default", 'pos': "main_loggerjava",
+                         'showinconsole': True})
                     self._absolutepath = False
                     f = open(self._name + self._fileextension, mode="w", encoding=self._file_encoding)
                     f.close()
+
             elif configname == "debugmode":
                 self._debugmode = configdata
+
             elif configname == "fatalexit":
                 if self.testformat(configdata, 1):
-                    self._fatalclose = configdata
+                    self._fatalexit = configdata
                 else:
-                    self.warn({'txt':"wrong fatal exit config.this config is set to default", 'pos':"main_loggerjava", 'showinconsole':True})
-                    self._fatalclose = False
-            self.log({'txt':"all given configs modified",'level':"D",'pos':"main_loggerjava.config",'showinconsole':False})
+                    self.warn({'txt': "wrong fatal exit config.this config is set to default", 'pos': "main_loggerjava",
+                               'showinconsole': True})
+                    self._fatalexit = False
 
+            elif configname == "debuginanotherfile":
+                if self.testformat(configdata, 1):
+                    self._debuginanotherfile = configdata
+                else:
+                    self.warn({'txt': 'wrong debug in another file config. this config is set to default',
+                               'pos': 'main_loggerjava', 'showinconsole': True})
+                    self._debuginanotherfile = False
+            self.log({'txt': "all given configs modified", 'level': "D", 'pos': "main_loggerjava.config",
+                      'showinconsole': False})
 
     def clearcurrentlog(self):
         """
@@ -322,32 +385,102 @@ class log:
             f = open(self._name + self._fileextension, mode="w", encoding=self._file_encoding)
         f.write("")
         f.close()
-        # TODO:debug type
         if self._debuginanotherfile and self._absolutepath:
-            f = open(self._route[:-4])
-
+            f = open(os.path.splitext(self._route)[0] + self._debugfilename + os.path.splitext(self._route)[1],
+                     mode='w', encoding=self._file_encoding)
+        elif self._debuginanotherfile and not self._absolutepath:
+            f = open(self._name + self._debugfilename + self._fileextension, mode='w', encoding=self._file_encoding)
+        f.write("")
+        f.close()
 
     def version(self):
         """
         show the current version of loggerjava
-        :return:
+        :return: ver
         """
         print("Current loggerjava ver:%s" % self.ver)
 
-
     def test(self):
+        """
+        test the module
+        :return: test outputs
+        """
         test_loggerjava.testin()
-
 
     def exportconfig(self):
         """
         export current config
         use loadconfig(config) to load this exported config
-        returning as a lib
         :return: a dictonary contains configs
+        :rtype: dict
         """
-        i = {"_name": self._name, "fileextension": self._fileextension, "absolutepath": self._absolutepath,
+        i = {"name": self._name, "fileextension": self._fileextension, "absolutepath": self._absolutepath,
              "route": self._route, "showdetailedtime": self._showdetailedtime, "showinconsole": self._showinconsole,
-             "file_encoding": self._file_encoding, "fatalexit": self._fatalclose,
-             "debuginanotherfile": self._debuginanotherfile, "debugfilename":self._debugfilename}
+             "file_encoding": self._file_encoding, "fatalexit": self._fatalexit,
+             "debuginanotherfile": self._debuginanotherfile, "debugfilename": self._debugfilename}
         return i
+
+    def loadconfig(self, inputconfig):
+        """
+        load your saved config
+        :param inputconfig: the config lib exported from exportconfig()
+        :type inputconfig: dict
+        :return: nothing
+        """
+
+        if self.testformat(inputconfig["absolutepath"], 1):
+            self._absolutepath = inputconfig["absolutepath"]
+        else:
+            self.warn({'txt': "wrong absolute path config.this config is set to default", 'pos': "main_loggerjava",
+                       'showinconsole': True})
+            self._absolutepath = False
+
+        self._name = inputconfig["name"]
+        self._fileextension = inputconfig["fileextension"]
+        self._route = inputconfig["route"]
+        self._debugfilename = inputconfig['debugfilename']
+        try:
+            if _absolutepath:
+                tmpf = open(_route, mode="w", encoding=inputconfig["file_encoding"])
+            else:
+                tmpf = open(_name + _fileextension, mode="w", encoding=inputconfig["file_encoding"])
+            tmpf.close()
+            self._file_encoding = inputconfig["file_encoding"]
+        except LookupError:
+            self.warn({'txt': "wrong file encoding config.this config is set to default",
+                       'pos': "main_loggerjava", 'showinconsole': True})
+            self._file_encoding = "utf-8"
+
+        if _absolutepath:
+            f = open(_route, mode="at+", encoding=_file_encoding)
+        else:
+            f = open(_name + _fileextension, mode="at+", encoding=_file_encoding)
+        f.close()
+
+        if self.testformat(inputconfig["showdetailedtime"], 1):
+            self._showdetailedtime = inputconfig["showdetailedtime"]
+        else:
+            self.warn({'txt': "wrong detailed time config.this config is set to default",
+                       'pos': "main_loggerjava", 'showinconsole': True})
+            self._showdetailedtime = False
+
+        if self.testformat(inputconfig["showinconsole"], 1):
+            self._showinconsole = inputconfig["showinconsole"]
+        else:
+            self._showinconsole = True
+            self.warn({'txt': "wrong show in console config.this config is set to default",
+                       'pos': "main_loggerjava", 'showinconsole': True})
+
+        if self.testformat(inputconfig["fatalexit"], 1):
+            self._fatalexit = inputconfig["fatalexit"]
+        else:
+            self._fatalexit = False
+            self.warn({'txt': "wrong fatal close config.this config is set to default",
+                       'pos': "main_loggerjava", 'showinconsole': True})
+
+        if self.testformat(inputconfig['debuginanotherfile'], 1):
+            self._debuginanotherfile = inputconfig['debuginanotherfile']
+        else:
+            self._debuginanotherfile = False
+            self.warn({'txt': "wrong debug in another file config.this config is set to default",
+                       'pos': "main_loggerjava", 'showinconsole': True})
