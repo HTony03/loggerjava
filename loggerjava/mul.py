@@ -20,6 +20,7 @@ class log:
         self._fatalexit = False
         self._debuginanotherfile = False
         self._debugfilename = "_debug"
+        self._debuginfile = True
 
     def levelformat(self, level):
         debugformat = ["D", "d", "debug"]
@@ -135,10 +136,13 @@ class log:
         if inconsole:
             print(self.format(timelog, pos, level, txt))
         if not debugmodein:
-            if not self._debuginanotherfile:
+            if not self._debuginanotherfile and not self._debuginfile and level != 'debug':
                 f.write(self.format(timelog, pos, level, txt))
                 f.close()
-            if self._debuginanotherfile and level == 'debug':
+            elif not self._debuginanotherfile and self._debuginfile:
+                f.write(self.format(timelog, pos, level, txt))
+                f.close()
+            elif self._debuginanotherfile and level == 'debug':
                 f_debug.write(self.format(timelog, pos, level, txt))
                 f_debug.close()
                 f.close()
@@ -284,6 +288,11 @@ class log:
         debugfilename: the <debugfilename> part above
         :type debugfilename: str, default '_debug'
 
+        debuginfile: whether to save debug logs in the main log file
+        :type debuginfile: bool, defualt True
+        p.s.: if the 'debuginanotherfile' config is set to true,
+        the debug log would only be saved in the new debug file.
+
         :return: complete config changing debug log
         """
         for configname, configdata in kwargs.items():
@@ -371,6 +380,15 @@ class log:
                     self.warn({'txt': 'wrong debug in another file config. this config is set to default',
                                'pos': 'main_loggerjava', 'showinconsole': True})
                     self._debuginanotherfile = False
+
+            elif configname == 'debuginfile':
+                if self.testformat(configdata, 1):
+                    self._debuginfile = configdata
+                else:
+                    self.warn({'txt': 'wrong debug in file config. this config is set to default',
+                               'pos': 'main_loggerjava', 'showinconsole': True})
+                    self._debuginfile = True
+
             self.log({'txt': "all given configs modified", 'level': "D", 'pos': "main_loggerjava.config",
                       'showinconsole': False})
 
@@ -440,10 +458,10 @@ class log:
         self._route = inputconfig["route"]
         self._debugfilename = inputconfig['debugfilename']
         try:
-            if _absolutepath:
-                tmpf = open(_route, mode="w", encoding=inputconfig["file_encoding"])
+            if self._absolutepath:
+                tmpf = open(self._route, mode="w", encoding=inputconfig["file_encoding"])
             else:
-                tmpf = open(_name + _fileextension, mode="w", encoding=inputconfig["file_encoding"])
+                tmpf = open(self._name + self._fileextension, mode="w", encoding=inputconfig["file_encoding"])
             tmpf.close()
             self._file_encoding = inputconfig["file_encoding"]
         except LookupError:
@@ -451,10 +469,10 @@ class log:
                        'pos': "main_loggerjava", 'showinconsole': True})
             self._file_encoding = "utf-8"
 
-        if _absolutepath:
-            f = open(_route, mode="at+", encoding=_file_encoding)
+        if self._absolutepath:
+            f = open(self._route, mode="at+", encoding=self._file_encoding)
         else:
-            f = open(_name + _fileextension, mode="at+", encoding=_file_encoding)
+            f = open(self._name + self._fileextension, mode="at+", encoding=self._file_encoding)
         f.close()
 
         if self.testformat(inputconfig["showdetailedtime"], 1):

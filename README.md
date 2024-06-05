@@ -11,6 +11,11 @@ logger = loggerjava
 logger.info("test")
 logger.warn("test", pos="insidecommand")
 logger.log("test", level="w", pos="main_test", showinconsole=False)
+
+new_logger = loggerjava.log()
+new_logger.info({'txt':"test"})
+new_logger.warn({'txt":test", ''pos':"insidecommand"})
+new_logger.log({'txt':"test", 'level':"w", 'pos':"main_test", 'showinconsole':False})
 ```
 
 ### Outputs
@@ -23,7 +28,7 @@ logger.log("test", level="w", pos="main_test", showinconsole=False)
 ```
 
 ### Developing features
-- [ ] multiple variable with different configs
+- [X] multiple variable with different configs
 - [ ] catch and format errors
 - [x] new config format
 - [X] override config once
@@ -36,29 +41,51 @@ loggerjava.config(**kwargs)
 """
 :param kwargs:input config names and config data
 format: config_name = config_data
-
+:type kwargs: dict
 below are config_name and the description
 
 name : change the name of the log file, only actives when abolutepath config is off
+:type name: str, default 'log'
 
 fileextension : change the extension of the log file, only actives when abolutepath config is off
+:type fileextension: str, default '.log'
 
 absolutepath : change whether inputing the absolute path of the log file,
 True for using the name and fileextension to create file in the program running location
-False for using the route to create file in the specific location(note:you need to enter the file format,like:test.log)
+False for using the route to create file in the specific location
+(note:the route should contain the extension of the file,like:D:\test.log)
+:type absolutepath: bool, default False
 
 route : change the file location, only activates when abolutepath config is on
-the route should contain the
+the route should contain the extension of the file
+:type route: str, default 'log.log'
 
 file_encoding : change the file encoding method
+:type file_encoding: encoding str, default 'utf-8'
 
 showdetailedtime : whether to show detailed time in the log file
+:type showdetailedtime: bool, default False
 
 showinconsole : whether to show the log in the python console
+:type showinconsole: bool, default True
 
 fatalexit : whether to exit the program after a fatal log
+:type fatalexit: bool, default False
 
-:return: none
+debuginanotherfile: whether to save debug logs in another file
+True: saving in <filename><debugfilename><fileextension>
+False:saving in <filename><fileextension>
+:type debuginanotherfile: bool, default False
+
+debugfilename: the <debugfilename> part above
+:type debugfilename: str, default '_debug'
+
+debuginfile: whether to save debug logs in the main log file
+:type debuginfile: bool, defualt True
+p.s.: if the 'debuginanotherfile' config is set to true, 
+the debug log would only be saved in the new debug file.
+
+:return: complete config changing debug log
 """
 ```
 using `logger.exportconfig()` to export your current config
@@ -102,6 +129,8 @@ if __name__ == "__main__":
     at test2.printa (test.py:25)
 ```
 ### Versions
+
+`v0.8.3.dev2` reformatted the defs, adding a new 'log' class available for multiple configs
 
 `v0.8.0` added the exceptionhandler and clearcurrentlog function
 
