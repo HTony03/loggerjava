@@ -583,7 +583,10 @@ def log(txt, level="i", pos="main", **overrides):
     overrides['txt'] = txt
     overrides['level'] = level
     overrides['pos'] = pos
-    new_logger.log(overrides)
+    if not new_logger._debugmode and ('debugmode' not in overrides or ('debugmode' in overrides and not overrides['debugmode'])):
+        new_logger.log(overrides)
+    else:
+        return  new_logger.log(overrides)
 
 
 def debug(txt, pos="main", **overrides):
@@ -596,10 +599,9 @@ def debug(txt, pos="main", **overrides):
     :type pos: str, default:'main'
     :return: debug log
     """
-    if _debugmode:
-        return log(txt, level='debug', pos=pos, **overrides)
-    else:
-        log(txt, level='debug', pos=pos, **overrides)
+    tmp = log(txt, level='debug', pos=pos, **overrides)
+    if tmp:
+        return tmp
 
 
 def info(txt, pos="main", **overrides):
@@ -612,10 +614,9 @@ def info(txt, pos="main", **overrides):
     :type pos: str, default:'main'
     :return: info log
     """
-    if _debugmode:
-        return log(txt, level='INFO', pos=pos, **overrides)
-    else:
-        log(txt, level='INFO', pos=pos, **overrides)
+    tmp = log(txt, level='INFO', pos=pos, **overrides)
+    if tmp:
+        return tmp
 
 
 def warn(txt, pos="main", **overrides):
@@ -628,10 +629,9 @@ def warn(txt, pos="main", **overrides):
     :type pos: str, default:'main'
     :return: warning log
     """
-    if _debugmode:
-        return log(txt, level='WARN', pos=pos, **overrides)
-    else:
-        log(txt, level='WARN', pos=pos, **overrides)
+    tmp = log(txt, level='WARN', pos=pos, **overrides)
+    if tmp:
+        return tmp
 
 
 def error(txt, pos="main", **overrides):
@@ -644,10 +644,9 @@ def error(txt, pos="main", **overrides):
     :type pos: str, default:'main'
     :return: error log
     """
-    if _debugmode:
-        return log(txt, level='ERROR', pos=pos, **overrides)
-    else:
-        log(txt, level='ERROR', pos=pos, **overrides)
+    tmp = log(txt, level='ERROR', pos=pos, **overrides)
+    if tmp:
+        return tmp
 
 
 def fatal(txt, pos="main", **overrides):

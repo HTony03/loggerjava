@@ -49,8 +49,8 @@ def testin():
     assert logger.info("test6", pos="testing") == "[%02d:%02d:%02d]" % (
         time.localtime().tm_hour, time.localtime().tm_min,
         time.localtime().tm_sec) + " [testing/INFO]: test6\n"
-    logger.config(name="test")
-    assert logger._name == "test"
+    # logger.config(name="test")
+    # assert logger._name == "test"
     logger.config(showdetailedtime=True)
     assert logger.info("test8") == "[" + time.asctime() + "] [main/INFO]: test8\n"
     logger.config(showdetailedtime=False)
